@@ -19,6 +19,9 @@ class Calculator:
             raise ValueError("Cannot divide by zero")
         return a / b
 
+    def add_divide(self, a, b):
+        return a + b / b
+
 def generate_random_number():
     return random.randint(1, 100)
 
