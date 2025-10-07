@@ -1,0 +1,5 @@
+# Requirements for the Simple Python Project
+
+math
+random
+datetime
