@@ -20,7 +20,7 @@ class Calculator:
         return a / b
 
     def add_divide(self, a, b):
-        return a + b / b
+        return a + b
 
 def generate_random_number():
     return random.randint(1, 100)
