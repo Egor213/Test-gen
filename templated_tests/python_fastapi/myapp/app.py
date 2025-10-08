@@ -125,9 +125,9 @@ async def echo(message: str):
     return {"message": message}
 
 
-@app.get("/echo2/{message}")
-async def echo2(message: str):
+@app.get("/echo3/{message}")
+async def echo3(message: str):
     """
     Returns the same message that is sent to it.
     """
-    return {"message": message + " hello"}
+    return {"message": message + " hello2"}
