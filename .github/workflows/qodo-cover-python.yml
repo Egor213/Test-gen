@@ -45,7 +45,7 @@ jobs:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           project_language: python
           project_root: test
-          code_coverage_report_path: coverage.xml
+          code_coverage_report_path: test/coverage.xml
           test_command: "pytest --cov=. --cov-report=xml --cov-report=term"
           model: gpt-4.1-mini
           desired_coverage: 70
