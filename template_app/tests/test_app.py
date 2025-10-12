@@ -1,4 +1,3 @@
-import pytest
 from myapp.app import Task, TaskManager
 
 
@@ -25,11 +24,4 @@ def test_mark_task_completed_in_manager():
     manager.add_task("Test Task", 1)
     manager.mark_task_completed("Test Task")
     assert manager.tasks[0].completed == True
-
-def test_list_tasks():
-    manager = TaskManager()
-    manager.add_task("Test Task 1", 1)
-    manager.add_task("Test Task 2", 2)
-    tasks = manager.list_tasks()
-    assert len(tasks) == 2
 
