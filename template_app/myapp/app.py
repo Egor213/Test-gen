@@ -70,6 +70,7 @@ class TaskManager:
 
     def load_tasks_from_file(self, filename):
         self.tasks = []
+
         with open(filename, 'r') as file:
             for line in file:
                 description, priority, completed = line.strip().split(',')
