@@ -14,4 +14,4 @@ jobs:
           pwd
       - name: test
         run: |
-          python ./test.py
+          python C:\Diplom\Test-gen\test.py
