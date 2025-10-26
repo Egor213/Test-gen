@@ -1,6 +1,7 @@
 name: Test Local Runner
 
 on:
+  push:
   workflow_dispatch:
     inputs:
       repo:
@@ -10,7 +11,7 @@ on:
 
 jobs:
   test:
-    runs-on: [self-hosted, Windows]  # или [self-hosted] если без лейбла Windows
+    runs-on: [self-hosted, Windows] 
     steps:
       - name: test
         run: |
