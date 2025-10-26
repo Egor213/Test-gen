@@ -1,0 +1,21 @@
+name: Test Local Runner
+
+on:
+  workflow_dispatch:  # запуск вручную из GitHub UI
+  push:                # можно запустить при любом push
+
+jobs:
+  test:
+    runs-on: [self-hosted, Windows]  # или [self-hosted] если без лейбла Windows
+    steps:
+      - name: Проверка окружения
+        run: |
+          echo "✅ Локальный раннер работает!"
+          echo "Текущая директория:"
+          cd
+          echo ""
+          echo "Список файлов:"
+          dir
+          echo ""
+          echo "Переменные среды:"
+          set
