@@ -10,12 +10,6 @@ jobs:
     steps:
       - name: Проверка окружения
         run: |
-          echo "✅ Локальный раннер работает!"
-          echo "Текущая директория:"
-          cd
-          echo ""
-          echo "Список файлов:"
-          dir
-          echo ""
-          echo "Переменные среды:"
-          set
+          echo "Work!"
+          echo "cur dir:"
+          ls
