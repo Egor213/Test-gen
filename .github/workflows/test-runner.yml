@@ -12,3 +12,6 @@ jobs:
         run: |
           echo "Current directory:"
           pwd
+      - name: test
+        run: |
+          echo "${{ github.workspace }}"
