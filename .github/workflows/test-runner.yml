@@ -1,15 +1,13 @@
 name: Test Local Runner
 
 on:
-  workflow_dispatch:  # запуск вручную из GitHub UI
-  push:                # можно запустить при любом push
+  push:
+  workflow_dispatch:
 
 jobs:
   test:
-    runs-on: [self-hosted, Windows]  # или [self-hosted] если без лейбла Windows
+    runs-on: [self-hosted, Windows] 
     steps:
-      - name: Проверка окружения
+      - name: test
         run: |
-          echo "Work!"
-          echo "cur dir:"
-          ls
+          python C:\Diplom\Test-gen\test.py --github-token ${{ secrets.TEEEEST }}
