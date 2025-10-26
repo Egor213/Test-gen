@@ -10,7 +10,4 @@ jobs:
     steps:
       - name: test
         run: |
-          python C:\Diplom\Test-gen\test.py
-        env:
-          GITHUB_TOKEN: ${{ secrets.TEEEEST }}
-          REPO_NAME: "Egor213/Test-gen"
+          python C:\Diplom\Test-gen\test.py --github-token ${{ secrets.TEEEEST }}
