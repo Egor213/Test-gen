@@ -8,6 +8,8 @@ jobs:
   test:
     runs-on: [self-hosted, Windows]  # или [self-hosted] если без лейбла Windows
     steps:
-      - name: Проверка окружения
+      - name: Show current directory (PowerShell)
+        shell: pwsh
         run: |
-          python3 ./test.py
+          echo "Current directory:"
+          pwd
