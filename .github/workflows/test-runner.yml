@@ -14,4 +14,4 @@ jobs:
           pwd
       - name: test
         run: |
-          echo "${{ github.repository }}"
+          python ./test.py
