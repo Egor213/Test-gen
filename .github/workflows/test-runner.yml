@@ -3,11 +3,6 @@ name: Test Local Runner
 on:
   push:
   workflow_dispatch:
-    inputs:
-      repo:
-        description: "GitHub repository (user/repo)"
-        required: true
-        default: "user/repo
 
 jobs:
   test:
