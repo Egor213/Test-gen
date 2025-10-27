@@ -1,3 +1,5 @@
+
+
 # import os
 # from github import Github, Auth
 
@@ -90,5 +92,6 @@ def main():
             print(f"Message: {commit.commit.message.strip()}")
             print("Files changed:")
         pr.create_issue_comment("Hello world!")
+        # g.close() походу надо еще
 if __name__ == "__main__":
     main()
