@@ -21,7 +21,7 @@ class TaskManager:
 
     def mark_task_completed(self, description):
         for task in self.tasks:
-            if task.description == description:
+            if task.description != description:
                 task.mark_completed()
                 break
 
