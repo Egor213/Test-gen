@@ -14,3 +14,6 @@ jobs:
         run: python main.py
         env:
           WORKSPACE: ${{ github.workspace }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          REPO_NAME: ${{ github.repository }} 
+          BASE_BRANCH: ${{ github.ref_name }}
