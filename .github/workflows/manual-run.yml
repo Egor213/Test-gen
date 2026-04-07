@@ -6,6 +6,9 @@ on:
 jobs:
   execute-main:
     runs-on: self-hosted
+    permissions:
+      contents: write        # позволяет создавать ветки и коммиты
+      pull-requests: write   # позволяет создавать PR
     steps:
       - name: Checkout code
         uses: actions/checkout@v4

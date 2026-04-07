@@ -1,21 +1,23 @@
 import os
 import random
-from github import Github
+from github import Github, Auth
 
-REPO_NAME = os.environ.get("REPO_NAME", "Egor213/Test-gen")   # значение по умолчанию – опционально
+REPO_NAME = os.environ.get("REPO_NAME", "Egor213/Test-gen")
 BASE_BRANCH = os.environ.get("BASE_BRANCH", "main")
 TOKEN = os.environ.get("GITHUB_TOKEN")
-print(f"Репозиторий: {REPO_NAME}"
-      f"\nБазовая ветка: {BASE_BRANCH}"
-      f"\nТокен: {'ЗАДАН' if TOKEN else 'НЕ ЗАДАН'}")
 if not TOKEN:
     raise ValueError("GITHUB_TOKEN не задан")
 
 random_num = random.randint(1, 1000000)
 new_branch_name = f"test_{random_num}"
 
-g = Github(TOKEN)
+# Новая авторизация
+g = Github(auth=Auth.Token(TOKEN))
 repo = g.get_repo(REPO_NAME)
+print(f"Репозиторий: {REPO_NAME}"
+      f"\nБазовая ветка: {BASE_BRANCH}"
+      f"\nТокен: {'ЗАДАН' if TOKEN else 'НЕ ЗАДАН'}")
+
 
 # ---- Генерация имени новой ветки ----
 random_num = random.randint(1, 1000000)
