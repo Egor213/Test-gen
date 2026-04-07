@@ -1,0 +1,14 @@
+name: Manual Run main.py
+
+on:
+  workflow_dispatch:
+
+jobs:
+  execute-main:
+    runs-on: self-hosted
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        
+      - name: Run main.py
+        run: python main.py
