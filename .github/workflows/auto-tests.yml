@@ -25,7 +25,7 @@ jobs:
           fetch-depth: 0
 
       - name: Generate tests
-        uses: your-org/generator-tests-action@v1
+        uses: Egor213/llm-test-generator-action
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           ai_api_key: ${{ secrets.OPENAI_API_KEY }}
