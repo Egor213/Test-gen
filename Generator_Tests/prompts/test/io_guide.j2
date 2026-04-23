@@ -1,0 +1,56 @@
+Создай параметризованные pytest тесты для всех сценариев ввода-вывода.
+
+Техники тестирования:
+1. Эквивалентные классы
+2. Граничные значения
+3. Pairwise комбинации
+4. Таблица принятия решений
+
+Используй продвинутые фишки pytest:
+- `@pytest.mark.parametrize` с вложенными параметрами
+- `pytest.fixture` для подготовки данных
+- `pytest.approx` для сравнения float
+- Кастомные маркеры `@pytest.mark.slow`, `@pytest.mark.integration`
+
+Пример:
+```python
+import pytest
+from decimal import Decimal
+from {{ module_name }} import {{ function_name }}
+
+class Test{{ FunctionName }}InputOutput:
+    
+    # Таблица принятия решений
+    @pytest.mark.parametrize("a,b,expected", [
+        pytest.param(0, 0, 0, id="zeros"),
+        pytest.param(1, 2, 3, id="positive"),
+        pytest.param(-1, -2, -3, id="negative"),
+        pytest.param(1.5, 2.5, 4.0, id="floats"),
+        pytest.param(Decimal('1.5'), Decimal('2.5'), Decimal('4.0'), id="decimals"),
+    ])
+    def test_addition(self, a, b, expected):
+        """Проверяет сложение различных типов чисел"""
+        result = {{ function_name }}(a, b)
+        if isinstance(expected, float):
+            assert result == pytest.approx(expected)
+        else:
+            assert result == expected
+    
+    @pytest.mark.slow
+    @pytest.mark.parametrize("size", [10, 100, 1000])
+    def test_performance(self, size):
+        """Проверяет производительность с разными размерами ввода"""
+        data = list(range(size))
+        result = {{ function_name }}(data)
+        assert len(result) == size
+```
+
+@input{функция для тестирования}
+```python
+{{ function_code }}
+```
+
+@input{типы параметров и ограничения}
+{{ parameter_constraints }}
+
+@output{параметризованные тесты}: сгенерируй комплексные параметризованные тесты

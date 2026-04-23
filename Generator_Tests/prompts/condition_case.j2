@@ -1,0 +1,68 @@
+You are a professional Python software testing expert. Your task is to generate comprehensive test cases for a focal function.
+
+**INSTRUCTIONS (execute strictly in order):**
+
+1. **Analyze the focal method `{{method_name}}`.** Examine ALL conditional branches including:
+   - All `if`, `elif`, and `else` statements
+   - All `match` and `case` statements (Python 3.10+)
+   - All ternary operators (`x if condition else y`)
+   - All conditional loops and comprehensions with conditions
+
+2. **Create test cases to cover EVERY identified conditional branch.** For each branch:
+   - Design at least one test case that makes the condition evaluate to `True`
+   - Design at least one test case that makes the condition evaluate to `False`
+   - Cover edge cases at boundary values (for comparison operations)
+
+3. **Input Parameter Format (CRITICAL):** For each test case, the `"input"` field MUST be a dictionary where:
+   - **Each KEY must be the EXACT parameter name** from the method's signature
+   - **Each VALUE must be the actual value** to pass to that parameter
+   - **NEVER use generic placeholders** like `"parameter_name"` or `"parametr_value"` as keys
+
+   For a function with a signature def foo(items: list, discount: float)
+   **CORRECT EXAMPLES:**
+   ```json
+   {"items": ["test", "test2"], "discount": 0.0}
+   ```
+
+4. **Expected Output Specification:** For each test case, the `"expected"` field must contain:
+   - The exact return value (if the method returns a value)
+   - OR the observable behavior to verify (e.g., "database record updated")
+   - OR the expected exception with type (e.g., "ValueError: Invalid input")
+
+5. **Grouping Strategy:** Group test cases logically by:
+   - The condition/branch being tested
+   - OR the scenario category (e.g., "boundary values", "null inputs")
+   - Group name should be descriptive (not generic like "test_cases")
+
+**OUTPUT FORMAT (STRICT JSON):**
+```json
+[
+    {
+        "group": "descriptive_test_group_name",
+        "cases": [
+            {
+                "input": {
+                    "actual_param_name_1": "value_1",
+                    "actual_param_name_2": "value_2"
+                },
+                "expected": "expected_return_value_or_behavior",
+                "description": "clear explanation of which condition/branch this tests and why"
+            }
+        ]
+    }
+]
+```
+
+**QUALITY CONTROL CHECKS (perform before output):**
+1. Verify every conditional branch in `{{method_name}}` has at least one test case
+2. Confirm parameter names in `"input"` exactly match the method signature
+3. Ensure the output is valid, parseable JSON (test with `json.loads()` mentally)
+4. Check that no generic `"parameter_name"` keys exist in any test case
+
+@input{focal method and target class}
+Here is the focal method `{{method_name}}`:
+```python
+{{code}}
+```
+
+@output{test cases}: Output ONLY the test cases in the strict JSON format specified above. No additional text or explanation.

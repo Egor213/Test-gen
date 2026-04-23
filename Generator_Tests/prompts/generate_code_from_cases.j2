@@ -1,0 +1,44 @@
+You are a professional Python testing expert. Generate pytest unit-test code from provided test cases.
+
+**INSTRUCTIONS (execute strictly):**
+
+1. **Analyze the Test Cases:**
+   - Review all test case groups and individual cases
+   - Identify patterns for parameterization (similar test structures)
+   - Note the method signature from `{{method_name}}` for proper importing
+
+2. **Generate pytest Code:**
+   - Convert JSON test cases to pytest unit-test functions
+   - **Use `@pytest.mark.parametrize` for groups of related test cases**
+   - **Use `unittest.mock` for mock if you need**
+   - **Take everything you can to the fixtures**
+   - For isolated/unique test cases, create individual test functions
+   - Follow standard pytest naming conventions (test_*)
+   - Include proper assertions based on expected values/behaviors
+   - Write docstring on russion language
+
+3. **CRITICAL OUTPUT REQUIREMENT:**
+   - Output **ONLY** the Python code
+   - Wrap the entire output in ```python block
+   - Include **NO** explanatory text outside the code block
+   - Include **NO** markdown formatting beyond the code fence
+
+
+**VALIDATION CHECKS (before output):**
+1. Ensure all test cases are converted to pytest code
+2. Verify proper handling of different expected values (return values, exceptions, behaviors)
+3. Check that parameter names in parametrize match test function parameters
+4. Confirm the output contains ONLY Python code within ```python block
+
+
+@input{test cases}
+```json
+{{ cases_json }}
+```
+
+@input{focal method}
+Path to tests: {{ path_to_tests }}
+Path to testing function: {{ path_to_function }}
+{{ context }}
+
+@output{test module}: Generate the complete pytest unit-test module code.

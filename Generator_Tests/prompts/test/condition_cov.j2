@@ -1,0 +1,52 @@
+Сгенерируй pytest тесты для полного покрытия условных ветвей функции.
+
+Требования к тестам:
+- Используй `assert` для проверок
+- Для исключений используй `pytest.raises`
+- Добавь docstring на русском/английском
+- Используй `@pytest.mark.parametrize` для параметризации
+- Сгруппируй логически связанные тесты в класс
+
+Структура тестового модуля:
+```python
+import pytest
+from {{ module_name }} import {{ function_name }}
+
+class Test{{ FunctionName }}:
+    """Тесты для функции {{ function_name }}"""
+    
+    @pytest.mark.parametrize("arg1,arg2,expected", [
+        (1, 2, 3),
+        (-1, -2, -3),
+    ])
+    def test_normal_case(self, arg1, arg2, expected):
+        """Проверяет нормальные случаи работы функции"""
+        result = {{ function_name }}(arg1, arg2)
+        assert result == expected
+    
+    def test_edge_case(self):
+        """Проверяет граничный случай"""
+        with pytest.raises(ValueError) as exc_info:
+            {{ function_name }}(None, 10)
+        assert "invalid value" in str(exc_info.value)
+```
+
+Особенности pytest:
+- Имена тестовых методов должны начинаться с `test_`
+- Используй фикстуры `@pytest.fixture` для подготовки данных
+- Для маркировки тестов используй `@pytest.mark`
+
+@input{функция для тестирования}
+```python
+{{ function_code }}
+```
+
+{% if context_dict %}
+@input{дополнительный контекст}
+{% for key, value in context_dict.items() %}
+{{ key }}:
+{{ value }}
+{% endfor %}
+{% endif %}
+
+@output{pytest тесты}: сгенерируй полный тестовый модуль

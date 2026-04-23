@@ -1,0 +1,85 @@
+Создай pytest тесты с использованием unittest.mock для изоляции тестируемого кода.
+
+Техники мокинга:
+1. `patch` для замены объектов
+2. `Mock` и `MagicMock` для создания заглушек
+3. `PropertyMock` для мокинга свойств
+4. `AsyncMock` для асинхронных моков
+5. `side_effect` для симуляции поведения
+
+Пример:
+```python
+import pytest
+from unittest.mock import Mock, MagicMock, patch, PropertyMock, AsyncMock
+from {{ module_name }} import {{ class_name }}
+
+class Test{{ ClassName }}WithMocks:
+    
+    @pytest.fixture
+    def mock_external_service(self):
+        """Фикстура для мока внешнего сервиса"""
+        with patch('{{ module_name }}.ExternalService') as mock_class:
+            mock_instance = Mock()
+            mock_instance.get_data.return_value = {'result': 'success'}
+            mock_class.return_value = mock_instance
+            yield mock_instance
+    
+    def test_with_basic_mock(self, mock_external_service):
+        """Тест с базовым моком"""
+        obj = {{ class_name }}(service=mock_external_service)
+        result = obj.process()
+        
+        # Проверка вызовов
+        mock_external_service.get_data.assert_called_once()
+        mock_external_service.get_data.assert_called_with(param='default')
+        
+        # Проверка результата
+        assert result == 'processed: success'
+    
+    @patch.object({{ class_name }}, 'static_method')
+    def test_patch_object(self, mock_static):
+        """Тест с patch.object"""
+        mock_static.return_value = 'mocked'
+        
+        obj = {{ class_name }}()
+        result = obj.use_static_method()
+        
+        assert result == 'mocked'
+        mock_static.assert_called_once()
+    
+    @patch('{{ module_name }}.config.SETTING', 'test_value')
+    def test_patch_constant(self):
+        """Тест с заменой константы"""
+        obj = {{ class_name }}()
+        assert obj.get_setting() == 'test_value'
+    
+    def test_mock_with_side_effect(self):
+        """Тест с side_effect"""
+        mock = Mock(side_effect=[1, 2, 3])
+        
+        assert mock() == 1
+        assert mock() == 2
+        assert mock() == 3
+    
+    def test_property_mock(self):
+        """Тест с PropertyMock"""
+        with patch.object({{ class_name }}, 'property_name', new_callable=PropertyMock) as mock_prop:
+            mock_prop.return_value = 'mocked_property'
+            
+            obj = {{ class_name }}()
+            assert obj.property_name == 'mocked_property'
+    
+    @pytest.mark.asyncio
+    async def test_async_mock(self):
+        """Тест с AsyncMock"""
+        async_mock = AsyncMock()
+        async_mock.coroutine_method.return_value = 'async_result'
+        
+        result = await async_mock.coroutine_method()
+        assert result == 'async_result'
+```
+
+@input{зависимости для мокинга}
+{{ dependencies_to_mock }}
+
+@output{тесты с моками}: создай pytest тесты с использованием unittest.mock

@@ -1,0 +1,79 @@
+You are a professional Python testing expert. Generate ADDITIONAL pytest tests to improve code coverage.
+
+**TASK:**
+You are given a function with coverage annotations and existing tests.
+Your goal is to write NEW test functions that execute the lines marked with "!" (uncovered).
+
+**COVERAGE MARKUP FORMAT:**
+- ">" at line start — line is COVERED (executed by existing tests)
+- "!" at line start — line is NOT COVERED (your tests must hit these lines)
+- "-" at line start — non-executable line (decorators, comments, blank lines — ignore)
+
+**ANNOTATED FUNCTION:**
+```
+{{ annotated_body }}
+```
+
+**FULL SOURCE CONTEXT:**
+```python
+{{ context }}
+```
+
+**EXISTING TESTS (do NOT repeat these):**
+```python
+{{ existing_tests }}
+```
+
+**INSTRUCTIONS (execute strictly):**
+
+1. **ANALYZE UNCOVERED LINES FIRST:**
+   Before writing any code, identify every "!" line and determine:
+   - What condition/input causes that line to execute
+   - What branch, exception, or edge case leads there
+   - What the expected behavior is when that line runs
+
+2. **GENERATE ONLY NEW TESTS:**
+   - Output ONLY new test functions — do NOT include existing tests
+   - Do NOT rewrite or modify existing tests
+   - Include necessary imports at the top (only those needed by your new tests)
+   - Each new test must target at least one specific "!" line
+
+3. **TARGETING STRATEGY FOR UNCOVERED LINES:**
+   - "!" on `except` / `raise` → write a test that triggers the exception
+   - "!" on `elif` / `else` → write a test with input that takes that branch
+   - "!" on `return` inside a branch → ensure the branch condition is met
+   - "!" on loop body → provide input that enters the loop (or doesn't, if "!" is on `else` of `for`)
+   - "!" on validation/guard clause → provide input that fails validation
+   - If multiple "!" lines form a single logical block, one test can cover them all
+
+4. **TEST QUALITY REQUIREMENTS:**
+   - Use concrete assert statements — not just "call and hope it doesn't crash"
+   - Assert return values, raised exceptions, or observable side effects
+   - Use `pytest.raises` for expected exceptions
+   - Use `@pytest.mark.parametrize` when multiple inputs target different "!" lines
+   - Use `unittest.mock.patch` / `MagicMock` if the uncovered code depends on external calls
+   - Name tests descriptively: `test_<function>_<what_uncovered_scenario_is_tested>`
+
+5. **DO NOT:**
+   - Do NOT test `__init__`, constructors, or class creation logic
+   - Do NOT test methods other than {{ function_name }}
+   - Do NOT duplicate any test case from existing tests
+   - Do NOT write tests for lines already marked with ">" — they are covered
+   - Do NOT output explanatory text — only Python code
+
+6. **OUTPUT FORMAT:**
+   - Wrap the entire output in a single ```python block
+   - Start with necessary imports (only new ones not present in existing tests)
+   - Then test functions/classes
+   - No markdown, no explanations outside the code block
+
+
+**SELF-CHECK BEFORE OUTPUT:**
+1. For each "!" line in the annotated function — is there at least one new test that executes it?
+2. Does every new test have a meaningful assert (not just calling the function)?
+3. Are any of the new tests duplicating existing test logic? Remove them if so.
+4. Are imports sufficient for the new tests to run independently when merged with existing tests?
+5. Will the new tests PASS on the original (unmodified) source code?
+
+
+@output{additional tests}: Generate ONLY the new pytest test code.

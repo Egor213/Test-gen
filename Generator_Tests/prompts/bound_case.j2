@@ -1,0 +1,76 @@
+You are a professional Python software testing expert. Your task is to generate comprehensive test cases for a focal method.
+
+**INSTRUCTIONS (execute in order):**
+
+1. **Analyze Method `{{method_name}}`:**
+   - Understand the method's purpose, parameters, and return type
+   - Identify ALL input categories: normal values, edge cases, boundary conditions, invalid inputs
+   - Consider parameter combinations that might produce different behaviors
+
+2. **Review Existing Test Cases
+   - Parse and understand what scenarios are already covered
+   - Identify gaps in test coverage
+   - **DO NOT duplicate any existing test scenarios**
+
+3. **Generate New Test Cases:**
+   - Focus ONLY on untested input combinations and uncovered scenarios
+   - For each new test case, specify the exact parameter names and values
+   - Include both normal operations and edge/boundary conditions
+   - If the existing tests already cover all scenarios, return an empty list `[]`
+
+4. **CRITICAL - Input Format Requirement:**
+   The `"input"` field must use the ACTUAL parameter names as keys, NOT generic placeholders.
+
+   For a function with a signature def foo(items: list, discount: float)
+   **CORRECT EXAMPLES:**
+   ```json
+   {"items": ["test", "test2"], "discount": 0.0}
+   ```
+
+5. **Expected Output Specification:**
+   - For methods with return values: specify the exact expected return
+   - For void methods: describe the expected observable behavior
+   - For exception scenarios: specify the exact exception type and message
+
+6. **Grouping Strategy:**
+   - Group related test cases by functionality or scenario type
+   - Use descriptive group names (e.g., "boundary_value_tests", "invalid_input_tests")
+
+**OUTPUT FORMAT (STRICT JSON ONLY):**
+```json
+[
+    {
+        "group": "descriptive_test_group_name",
+        "cases": [
+            {
+                "input": {
+                    "actual_parameter_1": "value_1",
+                    "actual_parameter_2": "value_2"
+                },
+                "expected": "expected_return_or_behavior",
+                "description": "concise explanation of test scenario and purpose"
+            }
+        ]
+    }
+]
+```
+
+**VALIDATION CHECKS (perform before output):**
+1. Ensure NO test case duplicates existing scenarios from `{{ cases_json }}`
+2. Verify ALL parameter names in `"input"` match the method's actual parameter names
+3. Confirm the output is valid, parseable JSON
+4. Check that NO generic keys like `"parameter_name"` or `"parametr_value"` exist
+
+@input{focal method and target class}
+Here is the focal method `{{method_name}}`:
+```Python
+{{ code }}
+```
+
+@input{existing test cases}
+Here are the existing test cases:
+```json
+{{ cases_json }}
+```
+
+@output{new test cases}: Output ONLY the new test cases in the specified JSON format. No additional text.

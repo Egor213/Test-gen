@@ -1,0 +1,50 @@
+Преобразуй JSON тест-кейсы в pytest тесты.
+
+Стратегии преобразования:
+1. Одна группа = один тестовый метод или параметризованный тест
+2. Используй фикстуры для общих данных
+3. Добавь setup/teardown через фикстуры
+4. Обработай специальные типы (datetime, Decimal, сложные объекты)
+
+JSON кейсы:
+```json
+{{ cases_json }}
+```
+
+Шаблон тестового класса:
+```python
+{{ test_class_template }}
+```
+
+Инструкции по преобразованию:
+- Если в группе несколько кейсов с разными параметрами → `@pytest.mark.parametrize`
+- Если кейсы проверяют одно поведение с разными данными → один тест с циклом
+- Для исключений → `pytest.raises`
+- Для асинхронных функций → `pytest.mark.asyncio`
+
+Пример преобразования:
+```python
+import pytest
+from {{ module }} import {{ function }}
+
+class Test{{ Function }}FromCases:
+    
+    @pytest.mark.parametrize("input_val,expected", [
+        ({"param1": "value1"}, "result1"),
+        ({"param1": "value2"}, "result2"),
+    ])
+    def test_group_name(self, input_val, expected):
+        """Тесты из группы 'group_name'"""
+        result = {{ function }}(**input_val)
+        assert result == expected
+```
+
+@input{дополнительный контекст}
+{% if context_dict %}
+{% for key, value in context_dict.items() %}
+{{ key }}:
+{{ value }}
+{% endfor %}
+{% endif %}
+
+@output{pytest тесты}: преобразуй JSON в полноценные pytest тесты

@@ -1,0 +1,56 @@
+You are a senior Python test engineer performing a final review of an auto-generated test file before it is committed to the repository.
+
+## Your task:
+Review the test file below and decide whether it needs corrections. If the tests are already clean and correct, return them **unchanged**.
+
+## Review checklist:
+
+### 1. Unused imports
+Remove any import that is not actually used in the test file.
+
+### 2. Unused helpers
+Remove any helper function, fixture, or class that is never called or referenced by any test.
+
+### 3. Redundant tests
+Two tests are **redundant** if they verify **the same behavior of the same method with the same inputs and the same outcome**. The key question is: "If I delete one of these tests, do I lose any information about whether the code works correctly?" If the answer is NO, they are redundant — keep only the more thorough one.
+
+Specifically:
+- If test A calls `foo()` and asserts `result == X`, and test B also calls `foo()` and asserts `result == X` but additionally checks a precondition before calling `foo()`, they test **the same behavior**. Keep only test B (the more thorough one) and remove test A.
+- If test A and test B call the same method with the same arguments and check the same postcondition, but test B adds an extra assertion about the initial state — they are still testing the same behavior. Keep test B, remove test A.
+- Tests are NOT redundant if they use **different inputs**, test **different methods**, test **different exception types**, or verify **different side effects**.
+
+### 4. Obvious assertion errors
+If an assertion is clearly wrong (e.g., `assert 1 == 2` with no conditional logic), fix it based on the source code behavior.
+
+### 5. Dead code
+Remove commented-out test functions, unreachable code, or empty test functions with only `pass`.
+
+### 6. Unnecessary mocks
+If a test uses `patch` or `MagicMock` on something that could be tested directly without mocking (e.g., mocking a simple method that has no side effects, no I/O, no external dependencies), remove the mock and test directly. Only keep mocks for: I/O operations, network calls, database access, file system operations, time-dependent behavior, or external service calls.
+
+## Strict rules — DO NOT violate:
+- **DO NOT remove any test that covers a unique code path, edge case, or input combination.**
+- **DO NOT simplify parameterized tests by reducing the parameter set.**
+- **DO NOT change test logic that is correct and non-redundant.** If a test passes and tests unique real behavior, leave it alone.
+- **DO NOT add new tests.** Your job is review only.
+- **DO NOT modify the source code import paths or the way the tested module is imported** unless the import is provably broken.
+- **Preserve all docstrings and meaningful comments** (update docstrings only if you remove a redundant test and the remaining test's docstring should be clarified).
+
+## Decision:
+- If the file needs changes, return the **complete corrected file** inside a single ```python ... ``` block.
+- If the file is already clean, return the **exact same file unchanged** inside a single ```python ... ``` block.
+
+You MUST always return the complete file. Never return partial snippets.
+No explanations before or after the code block.
+
+## Source code being tested:
+```python
+{{ source_code }}
+```
+
+## Test file to review:
+```python
+{{ test_code }}
+```
+
+Return the reviewed test file:

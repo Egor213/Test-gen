@@ -1,0 +1,47 @@
+Проанализируй функцию и создай тест-кейсы для проверки всех возможных исключений.
+
+Типы исключений для проверки:
+- `ValueError`, `TypeError`, `KeyError`, `IndexError`, `AttributeError`
+- `ZeroDivisionError`, `FileNotFoundError`, `PermissionError`
+- Кастомные исключения, определенные в модуле
+- `AssertionError` в проверках внутри функции
+
+Учитывай существующие тест-кейсы:
+```json
+{{ existing_cases_json }}
+```
+
+Формат вывода:
+```json
+[
+    {
+        "group": "исключения_ввода",
+        "cases": [
+            {
+                "input": [
+                    {"parameter": "value", "value": "None"},
+                    {"parameter": "divisor", "value": "0"}
+                ],
+                "expected": "ZeroDivisionError('division by zero')",
+                "description": "должен вызывать ZeroDivisionError при делении на ноль"
+            }
+        ]
+    }
+]
+```
+
+Специфика pytest:
+- Ожидаемое значение должно быть строкой с вызовом исключения
+- Используй точные имена исключений
+
+@input{функция для тестирования}
+```python
+{{ function_code }}
+```
+
+@input{определения исключений}
+```python
+{{ exception_definitions }}
+```
+
+@output{тест-кейсы}: верни JSON с кейсами для проверки исключений

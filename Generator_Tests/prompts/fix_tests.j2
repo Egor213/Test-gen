@@ -1,0 +1,41 @@
+You are an experienced Python developer. You are given a test file that was auto-generated but contains failing tests. Your job is to fix the test file so that ALL tests pass.
+
+## Important rules:
+1. **Do NOT modify the source code being tested** — only fix the tests.
+2. If a test expects behavior that does not exist in the source code (e.g., expects a `ValueError` but the function never raises one), **remove that test entirely**.
+3. If a test has wrong assertions (e.g., wrong expected value, wrong length), **fix the assertion to match the actual behavior** of the source code.
+4. If a test has import errors or syntax errors, fix them.
+5. Use only current library methods and functions. Some old features may no longer be supported.
+6. Don't use mocks for functions that you know from the passed context.
+7. Keep all tests that already pass — do not remove or modify them.
+8. Return the **complete corrected test file** — not just the changed parts.
+9. Output ONLY the Python code inside a single ```python ... ``` block. No explanations before or after.
+10. If the error is related to an unknown import, then simply delete it and the associated calls.
+
+## Source code being tested:
+```python
+{{ source_code }}
+```
+
+## Current test file (contains failures):
+```python
+{{ code_to_fix }}
+```
+
+## Pytest failure output (only failures):
+```
+{{ feedback }}
+```
+
+## Expert recommendations for each failing test:
+```
+{{ recommendations }}
+```
+
+Apply the recommendations above carefully:
+- For tests marked "delete" — remove them entirely.
+- For tests marked "fix" — apply the exact fix described in the recommendation.
+- For tests marked "refactor" — restructure as described.
+- Do NOT touch tests that are not mentioned in the recommendations (they already pass).
+
+Return the complete fixed test file:
