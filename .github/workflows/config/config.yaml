@@ -1,0 +1,30 @@
+app:
+  max_async_workers: 1
+
+ai:
+  # llm_provider: lmstudio
+  # llm_provider: request  
+  llm_provider: openai  
+  # model: "ibm/granite-4-h-tiny"
+  # model: "openai/gpt-oss-20b"
+  # model: "qwen/qwen3-8b"
+  # model: "liquid/lfm2.5-1.2b"
+  # model: "deepseek/deepseek-r1-0528-qwen3-8b"
+  
+  # model: "liquid/lfm-2.5-1.2b-thinking:free"
+
+  # model: "arcee-ai/trinity-large-preview:free"
+  model: "inclusionai/ling-2.6-1t:free"
+  # model: "qwen/qwen3-coder:free"
+  temperature: 0.5
+  # base_url: "https://api.proxyapi.ru/openrouter/v1"
+  base_url: "https://openrouter.ai/api/v1"
+  max_generate_retries: 3
+  max_fix_attempts: 4
+  target_line_coverage: 60
+
+logger:
+  log_out: both
+  console_level: info
+  file_level: debug
+  log_file: logs/app.log
