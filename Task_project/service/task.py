@@ -16,7 +16,6 @@ class TaskService:
         a = Task("descr", 1)
         a.mark_completed()
         self.manager.add_task(description, priority)
-        a.test_method()
         return f"Task '{description}' created with priority {priority}"
 
     def complete_task(self, description: str):

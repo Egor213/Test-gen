@@ -33,11 +33,9 @@ class TestTaskServiceCreateTask:
         """Проверка успешного создания задачи при валидных приоритетах."""
         description = "Test Task"
         with patch.object(task_service.manager, "add_task") as mock_add_task:
-            with patch.object(Task, "test_method") as mock_test_method:
-                result = task_service.create_task(description, priority)
-                mock_add_task.assert_called_once_with(description, priority)
-                mock_test_method.assert_called_once()
-                assert result == f"Task '{description}' created with priority {priority}"
+            result = task_service.create_task(description, priority)
+            mock_add_task.assert_called_once_with(description, priority)
+            assert result == f"Task '{description}' created with priority {priority}"
 
     def test_create_task_calls_internal_task_operations(self, task_service):
         """Проверка вызова внутренних методов Task внутри create_task."""
@@ -45,7 +43,5 @@ class TestTaskServiceCreateTask:
         priority = 3
         with patch.object(task_service.manager, "add_task"):
             with patch.object(Task, "mark_completed") as mock_mark_completed:
-                with patch.object(Task, "test_method") as mock_test_method:
-                    task_service.create_task(description, priority)
-                    mock_mark_completed.assert_called_once()
-                    mock_test_method.assert_called_once()
+                task_service.create_task(description, priority)
+                mock_mark_completed.assert_called_once()
