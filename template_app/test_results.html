@@ -1,0 +1,1703 @@
+
+    <!DOCTYPE html>
+    <html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Test Results</title>
+        <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.23.0/themes/prism-okaidia.min.css" rel="stylesheet" />
+        <style>
+            body {
+                font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+                margin: 20px;
+            }
+            table {
+                border-collapse: collapse;
+                width: 100%;
+                box-shadow: 0 2px 3px rgba(0,0,0,0.1);
+            }
+            th, td {
+                border: 1px solid #ddd;
+                text-align: left;
+                padding: 8px;
+            }
+            th {
+                background-color: #f2f2f2;
+            }
+            tr:nth-child(even) {
+                background-color: #f9f9f9;
+            }
+            .status-pass {
+                color: green;
+            }
+            .status-fail {
+                color: red;
+            }
+            pre {
+                background-color: #282c34 !important;
+                color: #ffffff !important;
+                padding: 10px;
+                border-radius: 5px;
+                overflow-x: auto;
+                white-space: pre-wrap;
+                font-family: 'Courier New', Courier, monospace;
+                font-size: 1.1em;  /* Slightly larger font size */
+            }
+        </style>
+    </head>
+    <body>
+        <table>
+            <tr>
+                <th>Status</th>
+                <th>Reason</th>
+                <th>Exit Code</th>
+                <th>Language</th>
+                <th>Modified Test File</th>
+                <th>Details</th>
+            </tr>
+            
+            <tr>
+                <td class="status-PASS">PASS</td>
+                <td></td>
+                <td>0</td>
+                <td>python</td>
+                <td>
+                    <details>
+                        <summary>View Full Code</summary>
+                        <pre><code><span class="diff-unchanged">  from myapp.app import Task, TaskManager</span>
+<span class="diff-unchanged">  </span>
+<span class="diff-unchanged">  </span>
+<span class="diff-unchanged">  </span>
+<span class="diff-unchanged">  def test_create_task():</span>
+<span class="diff-unchanged">      task = Task("Test Task", 1)</span>
+<span class="diff-unchanged">      assert task.description == "Test Task"</span>
+<span class="diff-unchanged">      assert task.priority == 1</span>
+<span class="diff-unchanged">      assert task.completed == False</span>
+<span class="diff-unchanged">  </span>
+<span class="diff-unchanged">  def test_mark_task_completed():</span>
+<span class="diff-unchanged">      task = Task("Test Task", 1)</span>
+<span class="diff-unchanged">      task.mark_completed()</span>
+<span class="diff-unchanged">      assert task.completed == True</span>
+<span class="diff-unchanged">  </span>
+<span class="diff-unchanged">  def test_add_task():</span>
+<span class="diff-unchanged">      manager = TaskManager()</span>
+<span class="diff-unchanged">      manager.add_task("Test Task", 1)</span>
+<span class="diff-unchanged">      assert len(manager.tasks) == 1</span>
+<span class="diff-unchanged">      assert manager.tasks[0].description == "Test Task"</span>
+<span class="diff-unchanged">  </span>
+<span class="diff-unchanged">  def test_mark_task_completed_in_manager():</span>
+<span class="diff-unchanged">      manager = TaskManager()</span>
+<span class="diff-unchanged">      manager.add_task("Test Task", 1)</span>
+<span class="diff-unchanged">      manager.mark_task_completed("Test Task")</span>
+<span class="diff-unchanged">      assert manager.tasks[0].completed == True</span>
+<span class="diff-unchanged">  </span>
+<span class="diff-added">+ def test_list_tasks_prints_all_tasks(capfd):</span>
+<span class="diff-added">+     manager = TaskManager()</span>
+<span class="diff-added">+     manager.add_task("Task 1", 1)</span>
+<span class="diff-added">+     manager.add_task("Task 2", 2)</span>
+<span class="diff-added">+     manager.list_tasks()</span>
+<span class="diff-added">+     out, err = capfd.readouterr()</span>
+<span class="diff-added">+     assert "Task: Task 1, Priority: 1, Status: Pending" in out</span>
+<span class="diff-added">+     assert "Task: Task 2, Priority: 2, Status: Pending" in out</span>
+<span class="diff-added">+ </span>
+<span class="diff-added">+ </span></code></pre>
+                    </details>
+                </td>
+                <td>
+                    <details>
+                        <summary>View More</summary>
+                        <div><strong>STDERR:</strong> <pre><code class="language-python"></code></pre></div>
+                        <div><strong>STDOUT:</strong> <pre><code class="language-python">============================= test session starts ==============================
+platform linux -- Python 3.10.12, pytest-8.4.2, pluggy-1.6.0
+rootdir: /home/runner/work/Test-gen/Test-gen/template_app
+plugins: cov-7.0.0
+collected 5 items
+
+tests/test_app.py .....                                                  [100%]
+
+================================ tests coverage ================================
+_______________ coverage: platform linux, python 3.10.12-final-0 _______________
+
+Name                Stmts   Miss  Cover
+---------------------------------------
+myapp/__init__.py       0      0   100%
+myapp/app.py           61     26    57%
+tests/__init__.py       0      0   100%
+tests/test_app.py      28      0   100%
+---------------------------------------
+TOTAL                  89     26    71%
+Coverage XML written to file coverage.xml
+============================== 5 passed in 0.06s ===============================
+</code></pre></div>
+                        <div><strong>Test Code:</strong> <pre><code class="language-python">def test_list_tasks_prints_all_tasks(capfd):
+    manager = TaskManager()
+    manager.add_task("Task 1", 1)
+    manager.add_task("Task 2", 2)
+    manager.list_tasks()
+    out, err = capfd.readouterr()
+    assert "Task: Task 1, Priority: 1, Status: Pending" in out
+    assert "Task: Task 2, Priority: 2, Status: Pending" in out
+</code></pre></div>
+                        <div><strong>Imports:</strong> <pre><code class="language-python">""
+</code></pre></div>
+                    </details>
+                </td>
+            </tr>
+            
+            <tr>
+                <td class="status-PASS">PASS</td>
+                <td></td>
+                <td>0</td>
+                <td>python</td>
+                <td>
+                    <details>
+                        <summary>View Full Code</summary>
+                        <pre><code><span class="diff-unchanged">  from myapp.app import Task, TaskManager</span>
+<span class="diff-unchanged">  </span>
+<span class="diff-unchanged">  </span>
+<span class="diff-unchanged">  </span>
+<span class="diff-unchanged">  def test_create_task():</span>
+<span class="diff-unchanged">      task = Task("Test Task", 1)</span>
+<span class="diff-unchanged">      assert task.description == "Test Task"</span>
+<span class="diff-unchanged">      assert task.priority == 1</span>
+<span class="diff-unchanged">      assert task.completed == False</span>
+<span class="diff-unchanged">  </span>
+<span class="diff-unchanged">  def test_mark_task_completed():</span>
+<span class="diff-unchanged">      task = Task("Test Task", 1)</span>
+<span class="diff-unchanged">      task.mark_completed()</span>
+<span class="diff-unchanged">      assert task.completed == True</span>
+<span class="diff-unchanged">  </span>
+<span class="diff-unchanged">  def test_add_task():</span>
+<span class="diff-unchanged">      manager = TaskManager()</span>
+<span class="diff-unchanged">      manager.add_task("Test Task", 1)</span>
+<span class="diff-unchanged">      assert len(manager.tasks) == 1</span>
+<span class="diff-unchanged">      assert manager.tasks[0].description == "Test Task"</span>
+<span class="diff-unchanged">  </span>
+<span class="diff-unchanged">  def test_mark_task_completed_in_manager():</span>
+<span class="diff-unchanged">      manager = TaskManager()</span>
+<span class="diff-unchanged">      manager.add_task("Test Task", 1)</span>
+<span class="diff-unchanged">      manager.mark_task_completed("Test Task")</span>
+<span class="diff-unchanged">      assert manager.tasks[0].completed == True</span>
+<span class="diff-unchanged">  </span>
+<span class="diff-added">+ def test_list_pending_tasks_only_shows_pending(capfd):</span>
+<span class="diff-added">+     manager = TaskManager()</span>
+<span class="diff-added">+     manager.add_task("Task 1", 1)</span>
+<span class="diff-added">+     manager.add_task("Task 2", 2)</span>
+<span class="diff-added">+     manager.mark_task_completed("Task 2")</span>
+<span class="diff-added">+     manager.list_pending_tasks()</span>
+<span class="diff-added">+     out, err = capfd.readouterr()</span>
+<span class="diff-added">+     assert "Task: Task 1, Priority: 1, Status: Pending" in out</span>
+<span class="diff-added">+     assert "Task: Task 2" not in out</span>
+<span class="diff-added">+ </span>
+<span class="diff-added">+ </span>
+<span class="diff-unchanged">  def test_list_tasks_prints_all_tasks(capfd):</span>
+<span class="diff-unchanged">      manager = TaskManager()</span>
+<span class="diff-unchanged">      manager.add_task("Task 1", 1)</span>
+<span class="diff-unchanged">      manager.add_task("Task 2", 2)</span>
+<span class="diff-unchanged">      manager.list_tasks()</span>
+<span class="diff-unchanged">      out, err = capfd.readouterr()</span>
+<span class="diff-unchanged">      assert "Task: Task 1, Priority: 1, Status: Pending" in out</span>
+<span class="diff-unchanged">      assert "Task: Task 2, Priority: 2, Status: Pending" in out</span>
+<span class="diff-unchanged">  </span>
+<span class="diff-unchanged">  </span></code></pre>
+                    </details>
+                </td>
+                <td>
+                    <details>
+                        <summary>View More</summary>
+                        <div><strong>STDERR:</strong> <pre><code class="language-python"></code></pre></div>
+                        <div><strong>STDOUT:</strong> <pre><code class="language-python">============================= test session starts ==============================
+platform linux -- Python 3.10.12, pytest-8.4.2, pluggy-1.6.0
+rootdir: /home/runner/work/Test-gen/Test-gen/template_app
+plugins: cov-7.0.0
+collected 6 items
+
+tests/test_app.py ......                                                 [100%]
+
+================================ tests coverage ================================
+_______________ coverage: platform linux, python 3.10.12-final-0 _______________
+
+Name                Stmts   Miss  Cover
+---------------------------------------
+myapp/__init__.py       0      0   100%
+myapp/app.py           61     23    62%
+tests/__init__.py       0      0   100%
+tests/test_app.py      37      0   100%
+---------------------------------------
+TOTAL                  98     23    77%
+Coverage XML written to file coverage.xml
+============================== 6 passed in 0.06s ===============================
+</code></pre></div>
+                        <div><strong>Test Code:</strong> <pre><code class="language-python">def test_list_pending_tasks_only_shows_pending(capfd):
+    manager = TaskManager()
+    manager.add_task("Task 1", 1)
+    manager.add_task("Task 2", 2)
+    manager.mark_task_completed("Task 2")
+    manager.list_pending_tasks()
+    out, err = capfd.readouterr()
+    assert "Task: Task 1, Priority: 1, Status: Pending" in out
+    assert "Task: Task 2" not in out
+</code></pre></div>
+                        <div><strong>Imports:</strong> <pre><code class="language-python">""
+</code></pre></div>
+                    </details>
+                </td>
+            </tr>
+            
+            <tr>
+                <td class="status-PASS">PASS</td>
+                <td></td>
+                <td>0</td>
+                <td>python</td>
+                <td>
+                    <details>
+                        <summary>View Full Code</summary>
+                        <pre><code><span class="diff-unchanged">  from myapp.app import Task, TaskManager</span>
+<span class="diff-unchanged">  </span>
+<span class="diff-unchanged">  </span>
+<span class="diff-unchanged">  </span>
+<span class="diff-unchanged">  def test_create_task():</span>
+<span class="diff-unchanged">      task = Task("Test Task", 1)</span>
+<span class="diff-unchanged">      assert task.description == "Test Task"</span>
+<span class="diff-unchanged">      assert task.priority == 1</span>
+<span class="diff-unchanged">      assert task.completed == False</span>
+<span class="diff-unchanged">  </span>
+<span class="diff-unchanged">  def test_mark_task_completed():</span>
+<span class="diff-unchanged">      task = Task("Test Task", 1)</span>
+<span class="diff-unchanged">      task.mark_completed()</span>
+<span class="diff-unchanged">      assert task.completed == True</span>
+<span class="diff-unchanged">  </span>
+<span class="diff-unchanged">  def test_add_task():</span>
+<span class="diff-unchanged">      manager = TaskManager()</span>
+<span class="diff-unchanged">      manager.add_task("Test Task", 1)</span>
+<span class="diff-unchanged">      assert len(manager.tasks) == 1</span>
+<span class="diff-unchanged">      assert manager.tasks[0].description == "Test Task"</span>
+<span class="diff-unchanged">  </span>
+<span class="diff-unchanged">  def test_mark_task_completed_in_manager():</span>
+<span class="diff-unchanged">      manager = TaskManager()</span>
+<span class="diff-unchanged">      manager.add_task("Test Task", 1)</span>
+<span class="diff-unchanged">      manager.mark_task_completed("Test Task")</span>
+<span class="diff-unchanged">      assert manager.tasks[0].completed == True</span>
+<span class="diff-unchanged">  </span>
+<span class="diff-added">+ def test_list_completed_tasks_only_shows_completed(capfd):</span>
+<span class="diff-added">+     manager = TaskManager()</span>
+<span class="diff-added">+     manager.add_task("Task 1", 1)</span>
+<span class="diff-added">+     manager.add_task("Task 2", 2)</span>
+<span class="diff-added">+     manager.mark_task_completed("Task 1")</span>
+<span class="diff-added">+     manager.list_completed_tasks()</span>
+<span class="diff-added">+     out, err = capfd.readouterr()</span>
+<span class="diff-added">+     assert "Task: Task 1, Priority: 1, Status: Completed" in out</span>
+<span class="diff-added">+     assert "Task: Task 2" not in out</span>
+<span class="diff-added">+ </span>
+<span class="diff-added">+ </span>
+<span class="diff-unchanged">  def test_list_pending_tasks_only_shows_pending(capfd):</span>
+<span class="diff-unchanged">      manager = TaskManager()</span>
+<span class="diff-unchanged">      manager.add_task("Task 1", 1)</span>
+<span class="diff-unchanged">      manager.add_task("Task 2", 2)</span>
+<span class="diff-unchanged">      manager.mark_task_completed("Task 2")</span>
+<span class="diff-unchanged">      manager.list_pending_tasks()</span>
+<span class="diff-unchanged">      out, err = capfd.readouterr()</span>
+<span class="diff-unchanged">      assert "Task: Task 1, Priority: 1, Status: Pending" in out</span>
+<span class="diff-unchanged">      assert "Task: Task 2" not in out</span>
+<span class="diff-unchanged">  </span>
+<span class="diff-unchanged">  </span>
+<span class="diff-unchanged">  def test_list_tasks_prints_all_tasks(capfd):</span>
+<span class="diff-unchanged">      manager = TaskManager()</span>
+<span class="diff-unchanged">      manager.add_task("Task 1", 1)</span>
+<span class="diff-unchanged">      manager.add_task("Task 2", 2)</span>
+<span class="diff-unchanged">      manager.list_tasks()</span>
+<span class="diff-unchanged">      out, err = capfd.readouterr()</span>
+<span class="diff-unchanged">      assert "Task: Task 1, Priority: 1, Status: Pending" in out</span>
+<span class="diff-unchanged">      assert "Task: Task 2, Priority: 2, Status: Pending" in out</span>
+<span class="diff-unchanged">  </span>
+<span class="diff-unchanged">  </span></code></pre>
+                    </details>
+                </td>
+                <td>
+                    <details>
+                        <summary>View More</summary>
+                        <div><strong>STDERR:</strong> <pre><code class="language-python"></code></pre></div>
+                        <div><strong>STDOUT:</strong> <pre><code class="language-python">============================= test session starts ==============================
+platform linux -- Python 3.10.12, pytest-8.4.2, pluggy-1.6.0
+rootdir: /home/runner/work/Test-gen/Test-gen/template_app
+plugins: cov-7.0.0
+collected 7 items
+
+tests/test_app.py .......                                                [100%]
+
+================================ tests coverage ================================
+_______________ coverage: platform linux, python 3.10.12-final-0 _______________
+
+Name                Stmts   Miss  Cover
+---------------------------------------
+myapp/__init__.py       0      0   100%
+myapp/app.py           61     20    67%
+tests/__init__.py       0      0   100%
+tests/test_app.py      46      0   100%
+---------------------------------------
+TOTAL                 107     20    81%
+Coverage XML written to file coverage.xml
+============================== 7 passed in 0.06s ===============================
+</code></pre></div>
+                        <div><strong>Test Code:</strong> <pre><code class="language-python">def test_list_completed_tasks_only_shows_completed(capfd):
+    manager = TaskManager()
+    manager.add_task("Task 1", 1)
+    manager.add_task("Task 2", 2)
+    manager.mark_task_completed("Task 1")
+    manager.list_completed_tasks()
+    out, err = capfd.readouterr()
+    assert "Task: Task 1, Priority: 1, Status: Completed" in out
+    assert "Task: Task 2" not in out
+</code></pre></div>
+                        <div><strong>Imports:</strong> <pre><code class="language-python">""
+</code></pre></div>
+                    </details>
+                </td>
+            </tr>
+            
+            <tr>
+                <td class="status-PASS">PASS</td>
+                <td></td>
+                <td>0</td>
+                <td>python</td>
+                <td>
+                    <details>
+                        <summary>View Full Code</summary>
+                        <pre><code><span class="diff-unchanged">  from myapp.app import Task, TaskManager</span>
+<span class="diff-unchanged">  </span>
+<span class="diff-unchanged">  </span>
+<span class="diff-unchanged">  </span>
+<span class="diff-unchanged">  def test_create_task():</span>
+<span class="diff-unchanged">      task = Task("Test Task", 1)</span>
+<span class="diff-unchanged">      assert task.description == "Test Task"</span>
+<span class="diff-unchanged">      assert task.priority == 1</span>
+<span class="diff-unchanged">      assert task.completed == False</span>
+<span class="diff-unchanged">  </span>
+<span class="diff-unchanged">  def test_mark_task_completed():</span>
+<span class="diff-unchanged">      task = Task("Test Task", 1)</span>
+<span class="diff-unchanged">      task.mark_completed()</span>
+<span class="diff-unchanged">      assert task.completed == True</span>
+<span class="diff-unchanged">  </span>
+<span class="diff-unchanged">  def test_add_task():</span>
+<span class="diff-unchanged">      manager = TaskManager()</span>
+<span class="diff-unchanged">      manager.add_task("Test Task", 1)</span>
+<span class="diff-unchanged">      assert len(manager.tasks) == 1</span>
+<span class="diff-unchanged">      assert manager.tasks[0].description == "Test Task"</span>
+<span class="diff-unchanged">  </span>
+<span class="diff-unchanged">  def test_mark_task_completed_in_manager():</span>
+<span class="diff-unchanged">      manager = TaskManager()</span>
+<span class="diff-unchanged">      manager.add_task("Test Task", 1)</span>
+<span class="diff-unchanged">      manager.mark_task_completed("Test Task")</span>
+<span class="diff-unchanged">      assert manager.tasks[0].completed == True</span>
+<span class="diff-added">+ </span>
+<span class="diff-added">+ def test_remove_task_removes_correct_task():</span>
+<span class="diff-added">+     manager = TaskManager()</span>
+<span class="diff-added">+     manager.add_task("Task 1", 1)</span>
+<span class="diff-added">+     manager.add_task("Task 2", 2)</span>
+<span class="diff-added">+     manager.remove_task("Task 1")</span>
+<span class="diff-added">+     assert len(manager.tasks) == 1</span>
+<span class="diff-added">+     assert manager.tasks[0].description == "Task 2"</span>
+<span class="diff-added">+ </span>
+<span class="diff-unchanged">  </span>
+<span class="diff-unchanged">  def test_list_completed_tasks_only_shows_completed(capfd):</span>
+<span class="diff-unchanged">      manager = TaskManager()</span>
+<span class="diff-unchanged">      manager.add_task("Task 1", 1)</span>
+<span class="diff-unchanged">      manager.add_task("Task 2", 2)</span>
+<span class="diff-unchanged">      manager.mark_task_completed("Task 1")</span>
+<span class="diff-unchanged">      manager.list_completed_tasks()</span>
+<span class="diff-unchanged">      out, err = capfd.readouterr()</span>
+<span class="diff-unchanged">      assert "Task: Task 1, Priority: 1, Status: Completed" in out</span>
+<span class="diff-unchanged">      assert "Task: Task 2" not in out</span>
+<span class="diff-unchanged">  </span>
+<span class="diff-unchanged">  </span>
+<span class="diff-unchanged">  def test_list_pending_tasks_only_shows_pending(capfd):</span>
+<span class="diff-unchanged">      manager = TaskManager()</span>
+<span class="diff-unchanged">      manager.add_task("Task 1", 1)</span>
+<span class="diff-unchanged">      manager.add_task("Task 2", 2)</span>
+<span class="diff-unchanged">      manager.mark_task_completed("Task 2")</span>
+<span class="diff-unchanged">      manager.list_pending_tasks()</span>
+<span class="diff-unchanged">      out, err = capfd.readouterr()</span>
+<span class="diff-unchanged">      assert "Task: Task 1, Priority: 1, Status: Pending" in out</span>
+<span class="diff-unchanged">      assert "Task: Task 2" not in out</span>
+<span class="diff-unchanged">  </span>
+<span class="diff-unchanged">  </span>
+<span class="diff-unchanged">  def test_list_tasks_prints_all_tasks(capfd):</span>
+<span class="diff-unchanged">      manager = TaskManager()</span>
+<span class="diff-unchanged">      manager.add_task("Task 1", 1)</span>
+<span class="diff-unchanged">      manager.add_task("Task 2", 2)</span>
+<span class="diff-unchanged">      manager.list_tasks()</span>
+<span class="diff-unchanged">      out, err = capfd.readouterr()</span>
+<span class="diff-unchanged">      assert "Task: Task 1, Priority: 1, Status: Pending" in out</span>
+<span class="diff-unchanged">      assert "Task: Task 2, Priority: 2, Status: Pending" in out</span>
+<span class="diff-unchanged">  </span>
+<span class="diff-unchanged">  </span></code></pre>
+                    </details>
+                </td>
+                <td>
+                    <details>
+                        <summary>View More</summary>
+                        <div><strong>STDERR:</strong> <pre><code class="language-python"></code></pre></div>
+                        <div><strong>STDOUT:</strong> <pre><code class="language-python">============================= test session starts ==============================
+platform linux -- Python 3.10.12, pytest-8.4.2, pluggy-1.6.0
+rootdir: /home/runner/work/Test-gen/Test-gen/template_app
+plugins: cov-7.0.0
+collected 8 items
+
+tests/test_app.py ........                                               [100%]
+
+================================ tests coverage ================================
+_______________ coverage: platform linux, python 3.10.12-final-0 _______________
+
+Name                Stmts   Miss  Cover
+---------------------------------------
+myapp/__init__.py       0      0   100%
+myapp/app.py           61     19    69%
+tests/__init__.py       0      0   100%
+tests/test_app.py      53      0   100%
+---------------------------------------
+TOTAL                 114     19    83%
+Coverage XML written to file coverage.xml
+============================== 8 passed in 0.07s ===============================
+</code></pre></div>
+                        <div><strong>Test Code:</strong> <pre><code class="language-python">def test_remove_task_removes_correct_task():
+    manager = TaskManager()
+    manager.add_task("Task 1", 1)
+    manager.add_task("Task 2", 2)
+    manager.remove_task("Task 1")
+    assert len(manager.tasks) == 1
+    assert manager.tasks[0].description == "Task 2"
+</code></pre></div>
+                        <div><strong>Imports:</strong> <pre><code class="language-python">""
+</code></pre></div>
+                    </details>
+                </td>
+            </tr>
+            
+            <tr>
+                <td class="status-PASS">PASS</td>
+                <td></td>
+                <td>0</td>
+                <td>python</td>
+                <td>
+                    <details>
+                        <summary>View Full Code</summary>
+                        <pre><code><span class="diff-unchanged">  from myapp.app import Task, TaskManager</span>
+<span class="diff-unchanged">  </span>
+<span class="diff-unchanged">  </span>
+<span class="diff-unchanged">  </span>
+<span class="diff-unchanged">  def test_create_task():</span>
+<span class="diff-unchanged">      task = Task("Test Task", 1)</span>
+<span class="diff-unchanged">      assert task.description == "Test Task"</span>
+<span class="diff-unchanged">      assert task.priority == 1</span>
+<span class="diff-unchanged">      assert task.completed == False</span>
+<span class="diff-unchanged">  </span>
+<span class="diff-unchanged">  def test_mark_task_completed():</span>
+<span class="diff-unchanged">      task = Task("Test Task", 1)</span>
+<span class="diff-unchanged">      task.mark_completed()</span>
+<span class="diff-unchanged">      assert task.completed == True</span>
+<span class="diff-unchanged">  </span>
+<span class="diff-unchanged">  def test_add_task():</span>
+<span class="diff-unchanged">      manager = TaskManager()</span>
+<span class="diff-unchanged">      manager.add_task("Test Task", 1)</span>
+<span class="diff-unchanged">      assert len(manager.tasks) == 1</span>
+<span class="diff-unchanged">      assert manager.tasks[0].description == "Test Task"</span>
+<span class="diff-unchanged">  </span>
+<span class="diff-unchanged">  def test_mark_task_completed_in_manager():</span>
+<span class="diff-unchanged">      manager = TaskManager()</span>
+<span class="diff-unchanged">      manager.add_task("Test Task", 1)</span>
+<span class="diff-unchanged">      manager.mark_task_completed("Test Task")</span>
+<span class="diff-unchanged">      assert manager.tasks[0].completed == True</span>
+<span class="diff-added">+ </span>
+<span class="diff-added">+ def test_update_task_priority_changes_priority():</span>
+<span class="diff-added">+     manager = TaskManager()</span>
+<span class="diff-added">+     manager.add_task("Task 1", 1)</span>
+<span class="diff-added">+     manager.update_task_priority("Task 1", 5)</span>
+<span class="diff-added">+     assert manager.tasks[0].priority == 5</span>
+<span class="diff-added">+ </span>
+<span class="diff-unchanged">  </span>
+<span class="diff-unchanged">  def test_remove_task_removes_correct_task():</span>
+<span class="diff-unchanged">      manager = TaskManager()</span>
+<span class="diff-unchanged">      manager.add_task("Task 1", 1)</span>
+<span class="diff-unchanged">      manager.add_task("Task 2", 2)</span>
+<span class="diff-unchanged">      manager.remove_task("Task 1")</span>
+<span class="diff-unchanged">      assert len(manager.tasks) == 1</span>
+<span class="diff-unchanged">      assert manager.tasks[0].description == "Task 2"</span>
+<span class="diff-unchanged">  </span>
+<span class="diff-unchanged">  </span>
+<span class="diff-unchanged">  def test_list_completed_tasks_only_shows_completed(capfd):</span>
+<span class="diff-unchanged">      manager = TaskManager()</span>
+<span class="diff-unchanged">      manager.add_task("Task 1", 1)</span>
+<span class="diff-unchanged">      manager.add_task("Task 2", 2)</span>
+<span class="diff-unchanged">      manager.mark_task_completed("Task 1")</span>
+<span class="diff-unchanged">      manager.list_completed_tasks()</span>
+<span class="diff-unchanged">      out, err = capfd.readouterr()</span>
+<span class="diff-unchanged">      assert "Task: Task 1, Priority: 1, Status: Completed" in out</span>
+<span class="diff-unchanged">      assert "Task: Task 2" not in out</span>
+<span class="diff-unchanged">  </span>
+<span class="diff-unchanged">  </span>
+<span class="diff-unchanged">  def test_list_pending_tasks_only_shows_pending(capfd):</span>
+<span class="diff-unchanged">      manager = TaskManager()</span>
+<span class="diff-unchanged">      manager.add_task("Task 1", 1)</span>
+<span class="diff-unchanged">      manager.add_task("Task 2", 2)</span>
+<span class="diff-unchanged">      manager.mark_task_completed("Task 2")</span>
+<span class="diff-unchanged">      manager.list_pending_tasks()</span>
+<span class="diff-unchanged">      out, err = capfd.readouterr()</span>
+<span class="diff-unchanged">      assert "Task: Task 1, Priority: 1, Status: Pending" in out</span>
+<span class="diff-unchanged">      assert "Task: Task 2" not in out</span>
+<span class="diff-unchanged">  </span>
+<span class="diff-unchanged">  </span>
+<span class="diff-unchanged">  def test_list_tasks_prints_all_tasks(capfd):</span>
+<span class="diff-unchanged">      manager = TaskManager()</span>
+<span class="diff-unchanged">      manager.add_task("Task 1", 1)</span>
+<span class="diff-unchanged">      manager.add_task("Task 2", 2)</span>
+<span class="diff-unchanged">      manager.list_tasks()</span>
+<span class="diff-unchanged">      out, err = capfd.readouterr()</span>
+<span class="diff-unchanged">      assert "Task: Task 1, Priority: 1, Status: Pending" in out</span>
+<span class="diff-unchanged">      assert "Task: Task 2, Priority: 2, Status: Pending" in out</span>
+<span class="diff-unchanged">  </span>
+<span class="diff-unchanged">  </span></code></pre>
+                    </details>
+                </td>
+                <td>
+                    <details>
+                        <summary>View More</summary>
+                        <div><strong>STDERR:</strong> <pre><code class="language-python"></code></pre></div>
+                        <div><strong>STDOUT:</strong> <pre><code class="language-python">============================= test session starts ==============================
+platform linux -- Python 3.10.12, pytest-8.4.2, pluggy-1.6.0
+rootdir: /home/runner/work/Test-gen/Test-gen/template_app
+plugins: cov-7.0.0
+collected 9 items
+
+tests/test_app.py .........                                              [100%]
+
+================================ tests coverage ================================
+_______________ coverage: platform linux, python 3.10.12-final-0 _______________
+
+Name                Stmts   Miss  Cover
+---------------------------------------
+myapp/__init__.py       0      0   100%
+myapp/app.py           61     15    75%
+tests/__init__.py       0      0   100%
+tests/test_app.py      58      0   100%
+---------------------------------------
+TOTAL                 119     15    87%
+Coverage XML written to file coverage.xml
+============================== 9 passed in 0.07s ===============================
+</code></pre></div>
+                        <div><strong>Test Code:</strong> <pre><code class="language-python">def test_update_task_priority_changes_priority():
+    manager = TaskManager()
+    manager.add_task("Task 1", 1)
+    manager.update_task_priority("Task 1", 5)
+    assert manager.tasks[0].priority == 5
+</code></pre></div>
+                        <div><strong>Imports:</strong> <pre><code class="language-python">""
+</code></pre></div>
+                    </details>
+                </td>
+            </tr>
+            
+            <tr>
+                <td class="status-PASS">PASS</td>
+                <td></td>
+                <td>0</td>
+                <td>python</td>
+                <td>
+                    <details>
+                        <summary>View Full Code</summary>
+                        <pre><code><span class="diff-unchanged">  from myapp.app import Task, TaskManager</span>
+<span class="diff-unchanged">  </span>
+<span class="diff-unchanged">  </span>
+<span class="diff-unchanged">  </span>
+<span class="diff-unchanged">  def test_create_task():</span>
+<span class="diff-unchanged">      task = Task("Test Task", 1)</span>
+<span class="diff-unchanged">      assert task.description == "Test Task"</span>
+<span class="diff-unchanged">      assert task.priority == 1</span>
+<span class="diff-unchanged">      assert task.completed == False</span>
+<span class="diff-unchanged">  </span>
+<span class="diff-unchanged">  def test_mark_task_completed():</span>
+<span class="diff-unchanged">      task = Task("Test Task", 1)</span>
+<span class="diff-unchanged">      task.mark_completed()</span>
+<span class="diff-unchanged">      assert task.completed == True</span>
+<span class="diff-unchanged">  </span>
+<span class="diff-unchanged">  def test_add_task():</span>
+<span class="diff-unchanged">      manager = TaskManager()</span>
+<span class="diff-unchanged">      manager.add_task("Test Task", 1)</span>
+<span class="diff-unchanged">      assert len(manager.tasks) == 1</span>
+<span class="diff-unchanged">      assert manager.tasks[0].description == "Test Task"</span>
+<span class="diff-unchanged">  </span>
+<span class="diff-unchanged">  def test_mark_task_completed_in_manager():</span>
+<span class="diff-unchanged">      manager = TaskManager()</span>
+<span class="diff-unchanged">      manager.add_task("Test Task", 1)</span>
+<span class="diff-unchanged">      manager.mark_task_completed("Test Task")</span>
+<span class="diff-unchanged">      assert manager.tasks[0].completed == True</span>
+<span class="diff-added">+ </span>
+<span class="diff-added">+ def test_sort_tasks_by_priority_orders_tasks():</span>
+<span class="diff-added">+     manager = TaskManager()</span>
+<span class="diff-added">+     manager.add_task("Task 1", 5)</span>
+<span class="diff-added">+     manager.add_task("Task 2", 1)</span>
+<span class="diff-added">+     manager.add_task("Task 3", 3)</span>
+<span class="diff-added">+     manager.sort_tasks_by_priority()</span>
+<span class="diff-added">+     priorities = [task.priority for task in manager.tasks]</span>
+<span class="diff-added">+     assert priorities == [1, 3, 5]</span>
+<span class="diff-added">+ </span>
+<span class="diff-unchanged">  </span>
+<span class="diff-unchanged">  def test_update_task_priority_changes_priority():</span>
+<span class="diff-unchanged">      manager = TaskManager()</span>
+<span class="diff-unchanged">      manager.add_task("Task 1", 1)</span>
+<span class="diff-unchanged">      manager.update_task_priority("Task 1", 5)</span>
+<span class="diff-unchanged">      assert manager.tasks[0].priority == 5</span>
+<span class="diff-unchanged">  </span>
+<span class="diff-unchanged">  </span>
+<span class="diff-unchanged">  def test_remove_task_removes_correct_task():</span>
+<span class="diff-unchanged">      manager = TaskManager()</span>
+<span class="diff-unchanged">      manager.add_task("Task 1", 1)</span>
+<span class="diff-unchanged">      manager.add_task("Task 2", 2)</span>
+<span class="diff-unchanged">      manager.remove_task("Task 1")</span>
+<span class="diff-unchanged">      assert len(manager.tasks) == 1</span>
+<span class="diff-unchanged">      assert manager.tasks[0].description == "Task 2"</span>
+<span class="diff-unchanged">  </span>
+<span class="diff-unchanged">  </span>
+<span class="diff-unchanged">  def test_list_completed_tasks_only_shows_completed(capfd):</span>
+<span class="diff-unchanged">      manager = TaskManager()</span>
+<span class="diff-unchanged">      manager.add_task("Task 1", 1)</span>
+<span class="diff-unchanged">      manager.add_task("Task 2", 2)</span>
+<span class="diff-unchanged">      manager.mark_task_completed("Task 1")</span>
+<span class="diff-unchanged">      manager.list_completed_tasks()</span>
+<span class="diff-unchanged">      out, err = capfd.readouterr()</span>
+<span class="diff-unchanged">      assert "Task: Task 1, Priority: 1, Status: Completed" in out</span>
+<span class="diff-unchanged">      assert "Task: Task 2" not in out</span>
+<span class="diff-unchanged">  </span>
+<span class="diff-unchanged">  </span>
+<span class="diff-unchanged">  def test_list_pending_tasks_only_shows_pending(capfd):</span>
+<span class="diff-unchanged">      manager = TaskManager()</span>
+<span class="diff-unchanged">      manager.add_task("Task 1", 1)</span>
+<span class="diff-unchanged">      manager.add_task("Task 2", 2)</span>
+<span class="diff-unchanged">      manager.mark_task_completed("Task 2")</span>
+<span class="diff-unchanged">      manager.list_pending_tasks()</span>
+<span class="diff-unchanged">      out, err = capfd.readouterr()</span>
+<span class="diff-unchanged">      assert "Task: Task 1, Priority: 1, Status: Pending" in out</span>
+<span class="diff-unchanged">      assert "Task: Task 2" not in out</span>
+<span class="diff-unchanged">  </span>
+<span class="diff-unchanged">  </span>
+<span class="diff-unchanged">  def test_list_tasks_prints_all_tasks(capfd):</span>
+<span class="diff-unchanged">      manager = TaskManager()</span>
+<span class="diff-unchanged">      manager.add_task("Task 1", 1)</span>
+<span class="diff-unchanged">      manager.add_task("Task 2", 2)</span>
+<span class="diff-unchanged">      manager.list_tasks()</span>
+<span class="diff-unchanged">      out, err = capfd.readouterr()</span>
+<span class="diff-unchanged">      assert "Task: Task 1, Priority: 1, Status: Pending" in out</span>
+<span class="diff-unchanged">      assert "Task: Task 2, Priority: 2, Status: Pending" in out</span>
+<span class="diff-unchanged">  </span>
+<span class="diff-unchanged">  </span></code></pre>
+                    </details>
+                </td>
+                <td>
+                    <details>
+                        <summary>View More</summary>
+                        <div><strong>STDERR:</strong> <pre><code class="language-python"></code></pre></div>
+                        <div><strong>STDOUT:</strong> <pre><code class="language-python">============================= test session starts ==============================
+platform linux -- Python 3.10.12, pytest-8.4.2, pluggy-1.6.0
+rootdir: /home/runner/work/Test-gen/Test-gen/template_app
+plugins: cov-7.0.0
+collected 10 items
+
+tests/test_app.py ..........                                             [100%]
+
+================================ tests coverage ================================
+_______________ coverage: platform linux, python 3.10.12-final-0 _______________
+
+Name                Stmts   Miss  Cover
+---------------------------------------
+myapp/__init__.py       0      0   100%
+myapp/app.py           61     14    77%
+tests/__init__.py       0      0   100%
+tests/test_app.py      66      0   100%
+---------------------------------------
+TOTAL                 127     14    89%
+Coverage XML written to file coverage.xml
+============================== 10 passed in 0.07s ==============================
+</code></pre></div>
+                        <div><strong>Test Code:</strong> <pre><code class="language-python">def test_sort_tasks_by_priority_orders_tasks():
+    manager = TaskManager()
+    manager.add_task("Task 1", 5)
+    manager.add_task("Task 2", 1)
+    manager.add_task("Task 3", 3)
+    manager.sort_tasks_by_priority()
+    priorities = [task.priority for task in manager.tasks]
+    assert priorities == [1, 3, 5]
+</code></pre></div>
+                        <div><strong>Imports:</strong> <pre><code class="language-python">""
+</code></pre></div>
+                    </details>
+                </td>
+            </tr>
+            
+            <tr>
+                <td class="status-PASS">PASS</td>
+                <td></td>
+                <td>0</td>
+                <td>python</td>
+                <td>
+                    <details>
+                        <summary>View Full Code</summary>
+                        <pre><code><span class="diff-unchanged">  from myapp.app import Task, TaskManager</span>
+<span class="diff-unchanged">  </span>
+<span class="diff-unchanged">  </span>
+<span class="diff-unchanged">  </span>
+<span class="diff-unchanged">  def test_create_task():</span>
+<span class="diff-unchanged">      task = Task("Test Task", 1)</span>
+<span class="diff-unchanged">      assert task.description == "Test Task"</span>
+<span class="diff-unchanged">      assert task.priority == 1</span>
+<span class="diff-unchanged">      assert task.completed == False</span>
+<span class="diff-unchanged">  </span>
+<span class="diff-unchanged">  def test_mark_task_completed():</span>
+<span class="diff-unchanged">      task = Task("Test Task", 1)</span>
+<span class="diff-unchanged">      task.mark_completed()</span>
+<span class="diff-unchanged">      assert task.completed == True</span>
+<span class="diff-unchanged">  </span>
+<span class="diff-unchanged">  def test_add_task():</span>
+<span class="diff-unchanged">      manager = TaskManager()</span>
+<span class="diff-unchanged">      manager.add_task("Test Task", 1)</span>
+<span class="diff-unchanged">      assert len(manager.tasks) == 1</span>
+<span class="diff-unchanged">      assert manager.tasks[0].description == "Test Task"</span>
+<span class="diff-unchanged">  </span>
+<span class="diff-unchanged">  def test_mark_task_completed_in_manager():</span>
+<span class="diff-unchanged">      manager = TaskManager()</span>
+<span class="diff-unchanged">      manager.add_task("Test Task", 1)</span>
+<span class="diff-unchanged">      manager.mark_task_completed("Test Task")</span>
+<span class="diff-unchanged">      assert manager.tasks[0].completed == True</span>
+<span class="diff-added">+ </span>
+<span class="diff-added">+ def test_filter_tasks_by_priority_returns_correct_tasks():</span>
+<span class="diff-added">+     manager = TaskManager()</span>
+<span class="diff-added">+     manager.add_task("Task 1", 1)</span>
+<span class="diff-added">+     manager.add_task("Task 2", 2)</span>
+<span class="diff-added">+     manager.add_task("Task 3", 1)</span>
+<span class="diff-added">+     filtered = manager.filter_tasks_by_priority(1)</span>
+<span class="diff-added">+     assert len(filtered) == 2</span>
+<span class="diff-added">+     assert all(task.priority == 1 for task in filtered)</span>
+<span class="diff-added">+ </span>
+<span class="diff-unchanged">  </span>
+<span class="diff-unchanged">  def test_sort_tasks_by_priority_orders_tasks():</span>
+<span class="diff-unchanged">      manager = TaskManager()</span>
+<span class="diff-unchanged">      manager.add_task("Task 1", 5)</span>
+<span class="diff-unchanged">      manager.add_task("Task 2", 1)</span>
+<span class="diff-unchanged">      manager.add_task("Task 3", 3)</span>
+<span class="diff-unchanged">      manager.sort_tasks_by_priority()</span>
+<span class="diff-unchanged">      priorities = [task.priority for task in manager.tasks]</span>
+<span class="diff-unchanged">      assert priorities == [1, 3, 5]</span>
+<span class="diff-unchanged">  </span>
+<span class="diff-unchanged">  </span>
+<span class="diff-unchanged">  def test_update_task_priority_changes_priority():</span>
+<span class="diff-unchanged">      manager = TaskManager()</span>
+<span class="diff-unchanged">      manager.add_task("Task 1", 1)</span>
+<span class="diff-unchanged">      manager.update_task_priority("Task 1", 5)</span>
+<span class="diff-unchanged">      assert manager.tasks[0].priority == 5</span>
+<span class="diff-unchanged">  </span>
+<span class="diff-unchanged">  </span>
+<span class="diff-unchanged">  def test_remove_task_removes_correct_task():</span>
+<span class="diff-unchanged">      manager = TaskManager()</span>
+<span class="diff-unchanged">      manager.add_task("Task 1", 1)</span>
+<span class="diff-unchanged">      manager.add_task("Task 2", 2)</span>
+<span class="diff-unchanged">      manager.remove_task("Task 1")</span>
+<span class="diff-unchanged">      assert len(manager.tasks) == 1</span>
+<span class="diff-unchanged">      assert manager.tasks[0].description == "Task 2"</span>
+<span class="diff-unchanged">  </span>
+<span class="diff-unchanged">  </span>
+<span class="diff-unchanged">  def test_list_completed_tasks_only_shows_completed(capfd):</span>
+<span class="diff-unchanged">      manager = TaskManager()</span>
+<span class="diff-unchanged">      manager.add_task("Task 1", 1)</span>
+<span class="diff-unchanged">      manager.add_task("Task 2", 2)</span>
+<span class="diff-unchanged">      manager.mark_task_completed("Task 1")</span>
+<span class="diff-unchanged">      manager.list_completed_tasks()</span>
+<span class="diff-unchanged">      out, err = capfd.readouterr()</span>
+<span class="diff-unchanged">      assert "Task: Task 1, Priority: 1, Status: Completed" in out</span>
+<span class="diff-unchanged">      assert "Task: Task 2" not in out</span>
+<span class="diff-unchanged">  </span>
+<span class="diff-unchanged">  </span>
+<span class="diff-unchanged">  def test_list_pending_tasks_only_shows_pending(capfd):</span>
+<span class="diff-unchanged">      manager = TaskManager()</span>
+<span class="diff-unchanged">      manager.add_task("Task 1", 1)</span>
+<span class="diff-unchanged">      manager.add_task("Task 2", 2)</span>
+<span class="diff-unchanged">      manager.mark_task_completed("Task 2")</span>
+<span class="diff-unchanged">      manager.list_pending_tasks()</span>
+<span class="diff-unchanged">      out, err = capfd.readouterr()</span>
+<span class="diff-unchanged">      assert "Task: Task 1, Priority: 1, Status: Pending" in out</span>
+<span class="diff-unchanged">      assert "Task: Task 2" not in out</span>
+<span class="diff-unchanged">  </span>
+<span class="diff-unchanged">  </span>
+<span class="diff-unchanged">  def test_list_tasks_prints_all_tasks(capfd):</span>
+<span class="diff-unchanged">      manager = TaskManager()</span>
+<span class="diff-unchanged">      manager.add_task("Task 1", 1)</span>
+<span class="diff-unchanged">      manager.add_task("Task 2", 2)</span>
+<span class="diff-unchanged">      manager.list_tasks()</span>
+<span class="diff-unchanged">      out, err = capfd.readouterr()</span>
+<span class="diff-unchanged">      assert "Task: Task 1, Priority: 1, Status: Pending" in out</span>
+<span class="diff-unchanged">      assert "Task: Task 2, Priority: 2, Status: Pending" in out</span>
+<span class="diff-unchanged">  </span>
+<span class="diff-unchanged">  </span></code></pre>
+                    </details>
+                </td>
+                <td>
+                    <details>
+                        <summary>View More</summary>
+                        <div><strong>STDERR:</strong> <pre><code class="language-python"></code></pre></div>
+                        <div><strong>STDOUT:</strong> <pre><code class="language-python">============================= test session starts ==============================
+platform linux -- Python 3.10.12, pytest-8.4.2, pluggy-1.6.0
+rootdir: /home/runner/work/Test-gen/Test-gen/template_app
+plugins: cov-7.0.0
+collected 11 items
+
+tests/test_app.py ...........                                            [100%]
+
+================================ tests coverage ================================
+_______________ coverage: platform linux, python 3.10.12-final-0 _______________
+
+Name                Stmts   Miss  Cover
+---------------------------------------
+myapp/__init__.py       0      0   100%
+myapp/app.py           61     13    79%
+tests/__init__.py       0      0   100%
+tests/test_app.py      74      0   100%
+---------------------------------------
+TOTAL                 135     13    90%
+Coverage XML written to file coverage.xml
+============================== 11 passed in 0.07s ==============================
+</code></pre></div>
+                        <div><strong>Test Code:</strong> <pre><code class="language-python">def test_filter_tasks_by_priority_returns_correct_tasks():
+    manager = TaskManager()
+    manager.add_task("Task 1", 1)
+    manager.add_task("Task 2", 2)
+    manager.add_task("Task 3", 1)
+    filtered = manager.filter_tasks_by_priority(1)
+    assert len(filtered) == 2
+    assert all(task.priority == 1 for task in filtered)
+</code></pre></div>
+                        <div><strong>Imports:</strong> <pre><code class="language-python">""
+</code></pre></div>
+                    </details>
+                </td>
+            </tr>
+            
+            <tr>
+                <td class="status-PASS">PASS</td>
+                <td></td>
+                <td>0</td>
+                <td>python</td>
+                <td>
+                    <details>
+                        <summary>View Full Code</summary>
+                        <pre><code><span class="diff-unchanged">  from myapp.app import Task, TaskManager</span>
+<span class="diff-unchanged">  </span>
+<span class="diff-unchanged">  </span>
+<span class="diff-unchanged">  </span>
+<span class="diff-unchanged">  def test_create_task():</span>
+<span class="diff-unchanged">      task = Task("Test Task", 1)</span>
+<span class="diff-unchanged">      assert task.description == "Test Task"</span>
+<span class="diff-unchanged">      assert task.priority == 1</span>
+<span class="diff-unchanged">      assert task.completed == False</span>
+<span class="diff-unchanged">  </span>
+<span class="diff-unchanged">  def test_mark_task_completed():</span>
+<span class="diff-unchanged">      task = Task("Test Task", 1)</span>
+<span class="diff-unchanged">      task.mark_completed()</span>
+<span class="diff-unchanged">      assert task.completed == True</span>
+<span class="diff-unchanged">  </span>
+<span class="diff-unchanged">  def test_add_task():</span>
+<span class="diff-unchanged">      manager = TaskManager()</span>
+<span class="diff-unchanged">      manager.add_task("Test Task", 1)</span>
+<span class="diff-unchanged">      assert len(manager.tasks) == 1</span>
+<span class="diff-unchanged">      assert manager.tasks[0].description == "Test Task"</span>
+<span class="diff-unchanged">  </span>
+<span class="diff-unchanged">  def test_mark_task_completed_in_manager():</span>
+<span class="diff-unchanged">      manager = TaskManager()</span>
+<span class="diff-unchanged">      manager.add_task("Test Task", 1)</span>
+<span class="diff-unchanged">      manager.mark_task_completed("Test Task")</span>
+<span class="diff-unchanged">      assert manager.tasks[0].completed == True</span>
+<span class="diff-added">+ </span>
+<span class="diff-added">+ def test_count_pending_tasks_returns_correct_count():</span>
+<span class="diff-added">+     manager = TaskManager()</span>
+<span class="diff-added">+     manager.add_task("Task 1", 1)</span>
+<span class="diff-added">+     manager.add_task("Task 2", 2)</span>
+<span class="diff-added">+     manager.mark_task_completed("Task 1")</span>
+<span class="diff-added">+     assert manager.count_pending_tasks() == 1</span>
+<span class="diff-added">+ </span>
+<span class="diff-unchanged">  </span>
+<span class="diff-unchanged">  def test_filter_tasks_by_priority_returns_correct_tasks():</span>
+<span class="diff-unchanged">      manager = TaskManager()</span>
+<span class="diff-unchanged">      manager.add_task("Task 1", 1)</span>
+<span class="diff-unchanged">      manager.add_task("Task 2", 2)</span>
+<span class="diff-unchanged">      manager.add_task("Task 3", 1)</span>
+<span class="diff-unchanged">      filtered = manager.filter_tasks_by_priority(1)</span>
+<span class="diff-unchanged">      assert len(filtered) == 2</span>
+<span class="diff-unchanged">      assert all(task.priority == 1 for task in filtered)</span>
+<span class="diff-unchanged">  </span>
+<span class="diff-unchanged">  </span>
+<span class="diff-unchanged">  def test_sort_tasks_by_priority_orders_tasks():</span>
+<span class="diff-unchanged">      manager = TaskManager()</span>
+<span class="diff-unchanged">      manager.add_task("Task 1", 5)</span>
+<span class="diff-unchanged">      manager.add_task("Task 2", 1)</span>
+<span class="diff-unchanged">      manager.add_task("Task 3", 3)</span>
+<span class="diff-unchanged">      manager.sort_tasks_by_priority()</span>
+<span class="diff-unchanged">      priorities = [task.priority for task in manager.tasks]</span>
+<span class="diff-unchanged">      assert priorities == [1, 3, 5]</span>
+<span class="diff-unchanged">  </span>
+<span class="diff-unchanged">  </span>
+<span class="diff-unchanged">  def test_update_task_priority_changes_priority():</span>
+<span class="diff-unchanged">      manager = TaskManager()</span>
+<span class="diff-unchanged">      manager.add_task("Task 1", 1)</span>
+<span class="diff-unchanged">      manager.update_task_priority("Task 1", 5)</span>
+<span class="diff-unchanged">      assert manager.tasks[0].priority == 5</span>
+<span class="diff-unchanged">  </span>
+<span class="diff-unchanged">  </span>
+<span class="diff-unchanged">  def test_remove_task_removes_correct_task():</span>
+<span class="diff-unchanged">      manager = TaskManager()</span>
+<span class="diff-unchanged">      manager.add_task("Task 1", 1)</span>
+<span class="diff-unchanged">      manager.add_task("Task 2", 2)</span>
+<span class="diff-unchanged">      manager.remove_task("Task 1")</span>
+<span class="diff-unchanged">      assert len(manager.tasks) == 1</span>
+<span class="diff-unchanged">      assert manager.tasks[0].description == "Task 2"</span>
+<span class="diff-unchanged">  </span>
+<span class="diff-unchanged">  </span>
+<span class="diff-unchanged">  def test_list_completed_tasks_only_shows_completed(capfd):</span>
+<span class="diff-unchanged">      manager = TaskManager()</span>
+<span class="diff-unchanged">      manager.add_task("Task 1", 1)</span>
+<span class="diff-unchanged">      manager.add_task("Task 2", 2)</span>
+<span class="diff-unchanged">      manager.mark_task_completed("Task 1")</span>
+<span class="diff-unchanged">      manager.list_completed_tasks()</span>
+<span class="diff-unchanged">      out, err = capfd.readouterr()</span>
+<span class="diff-unchanged">      assert "Task: Task 1, Priority: 1, Status: Completed" in out</span>
+<span class="diff-unchanged">      assert "Task: Task 2" not in out</span>
+<span class="diff-unchanged">  </span>
+<span class="diff-unchanged">  </span>
+<span class="diff-unchanged">  def test_list_pending_tasks_only_shows_pending(capfd):</span>
+<span class="diff-unchanged">      manager = TaskManager()</span>
+<span class="diff-unchanged">      manager.add_task("Task 1", 1)</span>
+<span class="diff-unchanged">      manager.add_task("Task 2", 2)</span>
+<span class="diff-unchanged">      manager.mark_task_completed("Task 2")</span>
+<span class="diff-unchanged">      manager.list_pending_tasks()</span>
+<span class="diff-unchanged">      out, err = capfd.readouterr()</span>
+<span class="diff-unchanged">      assert "Task: Task 1, Priority: 1, Status: Pending" in out</span>
+<span class="diff-unchanged">      assert "Task: Task 2" not in out</span>
+<span class="diff-unchanged">  </span>
+<span class="diff-unchanged">  </span>
+<span class="diff-unchanged">  def test_list_tasks_prints_all_tasks(capfd):</span>
+<span class="diff-unchanged">      manager = TaskManager()</span>
+<span class="diff-unchanged">      manager.add_task("Task 1", 1)</span>
+<span class="diff-unchanged">      manager.add_task("Task 2", 2)</span>
+<span class="diff-unchanged">      manager.list_tasks()</span>
+<span class="diff-unchanged">      out, err = capfd.readouterr()</span>
+<span class="diff-unchanged">      assert "Task: Task 1, Priority: 1, Status: Pending" in out</span>
+<span class="diff-unchanged">      assert "Task: Task 2, Priority: 2, Status: Pending" in out</span>
+<span class="diff-unchanged">  </span>
+<span class="diff-unchanged">  </span></code></pre>
+                    </details>
+                </td>
+                <td>
+                    <details>
+                        <summary>View More</summary>
+                        <div><strong>STDERR:</strong> <pre><code class="language-python"></code></pre></div>
+                        <div><strong>STDOUT:</strong> <pre><code class="language-python">============================= test session starts ==============================
+platform linux -- Python 3.10.12, pytest-8.4.2, pluggy-1.6.0
+rootdir: /home/runner/work/Test-gen/Test-gen/template_app
+plugins: cov-7.0.0
+collected 12 items
+
+tests/test_app.py ............                                           [100%]
+
+================================ tests coverage ================================
+_______________ coverage: platform linux, python 3.10.12-final-0 _______________
+
+Name                Stmts   Miss  Cover
+---------------------------------------
+myapp/__init__.py       0      0   100%
+myapp/app.py           61     12    80%
+tests/__init__.py       0      0   100%
+tests/test_app.py      80      0   100%
+---------------------------------------
+TOTAL                 141     12    91%
+Coverage XML written to file coverage.xml
+============================== 12 passed in 0.08s ==============================
+</code></pre></div>
+                        <div><strong>Test Code:</strong> <pre><code class="language-python">def test_count_pending_tasks_returns_correct_count():
+    manager = TaskManager()
+    manager.add_task("Task 1", 1)
+    manager.add_task("Task 2", 2)
+    manager.mark_task_completed("Task 1")
+    assert manager.count_pending_tasks() == 1
+</code></pre></div>
+                        <div><strong>Imports:</strong> <pre><code class="language-python">""
+</code></pre></div>
+                    </details>
+                </td>
+            </tr>
+            
+            <tr>
+                <td class="status-FAIL">FAIL</td>
+                <td>Coverage did not increase. Maybe the test did run but did not increase coverage, or maybe the test execution was skipped due to some problem</td>
+                <td>0</td>
+                <td>python</td>
+                <td>
+                    <details>
+                        <summary>View Full Code</summary>
+                        <pre><code><span class="diff-unchanged">  from myapp.app import Task, TaskManager</span>
+<span class="diff-unchanged">  </span>
+<span class="diff-unchanged">  </span>
+<span class="diff-unchanged">  </span>
+<span class="diff-unchanged">  def test_create_task():</span>
+<span class="diff-unchanged">      task = Task("Test Task", 1)</span>
+<span class="diff-unchanged">      assert task.description == "Test Task"</span>
+<span class="diff-unchanged">      assert task.priority == 1</span>
+<span class="diff-unchanged">      assert task.completed == False</span>
+<span class="diff-unchanged">  </span>
+<span class="diff-unchanged">  def test_mark_task_completed():</span>
+<span class="diff-unchanged">      task = Task("Test Task", 1)</span>
+<span class="diff-unchanged">      task.mark_completed()</span>
+<span class="diff-unchanged">      assert task.completed == True</span>
+<span class="diff-unchanged">  </span>
+<span class="diff-unchanged">  def test_add_task():</span>
+<span class="diff-unchanged">      manager = TaskManager()</span>
+<span class="diff-unchanged">      manager.add_task("Test Task", 1)</span>
+<span class="diff-unchanged">      assert len(manager.tasks) == 1</span>
+<span class="diff-unchanged">      assert manager.tasks[0].description == "Test Task"</span>
+<span class="diff-unchanged">  </span>
+<span class="diff-unchanged">  def test_mark_task_completed_in_manager():</span>
+<span class="diff-unchanged">      manager = TaskManager()</span>
+<span class="diff-unchanged">      manager.add_task("Test Task", 1)</span>
+<span class="diff-unchanged">      manager.mark_task_completed("Test Task")</span>
+<span class="diff-unchanged">      assert manager.tasks[0].completed == True</span>
+<span class="diff-added">+ </span>
+<span class="diff-added">+ def test_count_completed_tasks_returns_correct_count():</span>
+<span class="diff-added">+     manager = TaskManager()</span>
+<span class="diff-added">+     manager.add_task("Task 1", 1)</span>
+<span class="diff-added">+     manager.add_task("Task 2", 2)</span>
+<span class="diff-added">+     manager.mark_task_completed("Task 2")</span>
+<span class="diff-added">+     assert manager.count_completed_tasks() == 1</span>
+<span class="diff-added">+ </span>
+<span class="diff-unchanged">  </span>
+<span class="diff-unchanged">  def test_count_pending_tasks_returns_correct_count():</span>
+<span class="diff-unchanged">      manager = TaskManager()</span>
+<span class="diff-unchanged">      manager.add_task("Task 1", 1)</span>
+<span class="diff-unchanged">      manager.add_task("Task 2", 2)</span>
+<span class="diff-unchanged">      manager.mark_task_completed("Task 1")</span>
+<span class="diff-unchanged">      assert manager.count_pending_tasks() == 1</span>
+<span class="diff-unchanged">  </span>
+<span class="diff-unchanged">  </span>
+<span class="diff-unchanged">  def test_filter_tasks_by_priority_returns_correct_tasks():</span>
+<span class="diff-unchanged">      manager = TaskManager()</span>
+<span class="diff-unchanged">      manager.add_task("Task 1", 1)</span>
+<span class="diff-unchanged">      manager.add_task("Task 2", 2)</span>
+<span class="diff-unchanged">      manager.add_task("Task 3", 1)</span>
+<span class="diff-unchanged">      filtered = manager.filter_tasks_by_priority(1)</span>
+<span class="diff-unchanged">      assert len(filtered) == 2</span>
+<span class="diff-unchanged">      assert all(task.priority == 1 for task in filtered)</span>
+<span class="diff-unchanged">  </span>
+<span class="diff-unchanged">  </span>
+<span class="diff-unchanged">  def test_sort_tasks_by_priority_orders_tasks():</span>
+<span class="diff-unchanged">      manager = TaskManager()</span>
+<span class="diff-unchanged">      manager.add_task("Task 1", 5)</span>
+<span class="diff-unchanged">      manager.add_task("Task 2", 1)</span>
+<span class="diff-unchanged">      manager.add_task("Task 3", 3)</span>
+<span class="diff-unchanged">      manager.sort_tasks_by_priority()</span>
+<span class="diff-unchanged">      priorities = [task.priority for task in manager.tasks]</span>
+<span class="diff-unchanged">      assert priorities == [1, 3, 5]</span>
+<span class="diff-unchanged">  </span>
+<span class="diff-unchanged">  </span>
+<span class="diff-unchanged">  def test_update_task_priority_changes_priority():</span>
+<span class="diff-unchanged">      manager = TaskManager()</span>
+<span class="diff-unchanged">      manager.add_task("Task 1", 1)</span>
+<span class="diff-unchanged">      manager.update_task_priority("Task 1", 5)</span>
+<span class="diff-unchanged">      assert manager.tasks[0].priority == 5</span>
+<span class="diff-unchanged">  </span>
+<span class="diff-unchanged">  </span>
+<span class="diff-unchanged">  def test_remove_task_removes_correct_task():</span>
+<span class="diff-unchanged">      manager = TaskManager()</span>
+<span class="diff-unchanged">      manager.add_task("Task 1", 1)</span>
+<span class="diff-unchanged">      manager.add_task("Task 2", 2)</span>
+<span class="diff-unchanged">      manager.remove_task("Task 1")</span>
+<span class="diff-unchanged">      assert len(manager.tasks) == 1</span>
+<span class="diff-unchanged">      assert manager.tasks[0].description == "Task 2"</span>
+<span class="diff-unchanged">  </span>
+<span class="diff-unchanged">  </span>
+<span class="diff-unchanged">  def test_list_completed_tasks_only_shows_completed(capfd):</span>
+<span class="diff-unchanged">      manager = TaskManager()</span>
+<span class="diff-unchanged">      manager.add_task("Task 1", 1)</span>
+<span class="diff-unchanged">      manager.add_task("Task 2", 2)</span>
+<span class="diff-unchanged">      manager.mark_task_completed("Task 1")</span>
+<span class="diff-unchanged">      manager.list_completed_tasks()</span>
+<span class="diff-unchanged">      out, err = capfd.readouterr()</span>
+<span class="diff-unchanged">      assert "Task: Task 1, Priority: 1, Status: Completed" in out</span>
+<span class="diff-unchanged">      assert "Task: Task 2" not in out</span>
+<span class="diff-unchanged">  </span>
+<span class="diff-unchanged">  </span>
+<span class="diff-unchanged">  def test_list_pending_tasks_only_shows_pending(capfd):</span>
+<span class="diff-unchanged">      manager = TaskManager()</span>
+<span class="diff-unchanged">      manager.add_task("Task 1", 1)</span>
+<span class="diff-unchanged">      manager.add_task("Task 2", 2)</span>
+<span class="diff-unchanged">      manager.mark_task_completed("Task 2")</span>
+<span class="diff-unchanged">      manager.list_pending_tasks()</span>
+<span class="diff-unchanged">      out, err = capfd.readouterr()</span>
+<span class="diff-unchanged">      assert "Task: Task 1, Priority: 1, Status: Pending" in out</span>
+<span class="diff-unchanged">      assert "Task: Task 2" not in out</span>
+<span class="diff-unchanged">  </span>
+<span class="diff-unchanged">  </span>
+<span class="diff-unchanged">  def test_list_tasks_prints_all_tasks(capfd):</span>
+<span class="diff-unchanged">      manager = TaskManager()</span>
+<span class="diff-unchanged">      manager.add_task("Task 1", 1)</span>
+<span class="diff-unchanged">      manager.add_task("Task 2", 2)</span>
+<span class="diff-unchanged">      manager.list_tasks()</span>
+<span class="diff-unchanged">      out, err = capfd.readouterr()</span>
+<span class="diff-unchanged">      assert "Task: Task 1, Priority: 1, Status: Pending" in out</span>
+<span class="diff-unchanged">      assert "Task: Task 2, Priority: 2, Status: Pending" in out</span>
+<span class="diff-unchanged">  </span>
+<span class="diff-unchanged">  </span></code></pre>
+                    </details>
+                </td>
+                <td>
+                    <details>
+                        <summary>View More</summary>
+                        <div><strong>STDERR:</strong> <pre><code class="language-python"></code></pre></div>
+                        <div><strong>STDOUT:</strong> <pre><code class="language-python">============================= test session starts ==============================
+platform linux -- Python 3.10.12, pytest-8.4.2, pluggy-1.6.0
+rootdir: /home/runner/work/Test-gen/Test-gen/template_app
+plugins: cov-7.0.0
+collected 13 items
+
+tests/test_app.py .............                                          [100%]
+
+================================ tests coverage ================================
+_______________ coverage: platform linux, python 3.10.12-final-0 _______________
+
+Name                Stmts   Miss  Cover
+---------------------------------------
+myapp/__init__.py       0      0   100%
+myapp/app.py           61     11    82%
+tests/__init__.py       0      0   100%
+tests/test_app.py      86      0   100%
+---------------------------------------
+TOTAL                 147     11    93%
+Coverage XML written to file coverage.xml
+============================== 13 passed in 0.08s ==============================
+</code></pre></div>
+                        <div><strong>Test Code:</strong> <pre><code class="language-python">def test_count_completed_tasks_returns_correct_count():
+    manager = TaskManager()
+    manager.add_task("Task 1", 1)
+    manager.add_task("Task 2", 2)
+    manager.mark_task_completed("Task 2")
+    assert manager.count_completed_tasks() == 1
+</code></pre></div>
+                        <div><strong>Imports:</strong> <pre><code class="language-python">""
+</code></pre></div>
+                    </details>
+                </td>
+            </tr>
+            
+            <tr>
+                <td class="status-FAIL">FAIL</td>
+                <td>Coverage did not increase. Maybe the test did run but did not increase coverage, or maybe the test execution was skipped due to some problem</td>
+                <td>0</td>
+                <td>python</td>
+                <td>
+                    <details>
+                        <summary>View Full Code</summary>
+                        <pre><code><span class="diff-unchanged">  from myapp.app import Task, TaskManager</span>
+<span class="diff-unchanged">  </span>
+<span class="diff-unchanged">  </span>
+<span class="diff-unchanged">  </span>
+<span class="diff-unchanged">  def test_create_task():</span>
+<span class="diff-unchanged">      task = Task("Test Task", 1)</span>
+<span class="diff-unchanged">      assert task.description == "Test Task"</span>
+<span class="diff-unchanged">      assert task.priority == 1</span>
+<span class="diff-unchanged">      assert task.completed == False</span>
+<span class="diff-unchanged">  </span>
+<span class="diff-unchanged">  def test_mark_task_completed():</span>
+<span class="diff-unchanged">      task = Task("Test Task", 1)</span>
+<span class="diff-unchanged">      task.mark_completed()</span>
+<span class="diff-unchanged">      assert task.completed == True</span>
+<span class="diff-unchanged">  </span>
+<span class="diff-unchanged">  def test_add_task():</span>
+<span class="diff-unchanged">      manager = TaskManager()</span>
+<span class="diff-unchanged">      manager.add_task("Test Task", 1)</span>
+<span class="diff-unchanged">      assert len(manager.tasks) == 1</span>
+<span class="diff-unchanged">      assert manager.tasks[0].description == "Test Task"</span>
+<span class="diff-unchanged">  </span>
+<span class="diff-unchanged">  def test_mark_task_completed_in_manager():</span>
+<span class="diff-unchanged">      manager = TaskManager()</span>
+<span class="diff-unchanged">      manager.add_task("Test Task", 1)</span>
+<span class="diff-unchanged">      manager.mark_task_completed("Test Task")</span>
+<span class="diff-unchanged">      assert manager.tasks[0].completed == True</span>
+<span class="diff-added">+ </span>
+<span class="diff-added">+ def test_clear_all_tasks_empties_task_list():</span>
+<span class="diff-added">+     manager = TaskManager()</span>
+<span class="diff-added">+     manager.add_task("Task 1", 1)</span>
+<span class="diff-added">+     manager.add_task("Task 2", 2)</span>
+<span class="diff-added">+     manager.clear_all_tasks()</span>
+<span class="diff-added">+     assert len(manager.tasks) == 0</span>
+<span class="diff-added">+ </span>
+<span class="diff-unchanged">  </span>
+<span class="diff-unchanged">  def test_count_pending_tasks_returns_correct_count():</span>
+<span class="diff-unchanged">      manager = TaskManager()</span>
+<span class="diff-unchanged">      manager.add_task("Task 1", 1)</span>
+<span class="diff-unchanged">      manager.add_task("Task 2", 2)</span>
+<span class="diff-unchanged">      manager.mark_task_completed("Task 1")</span>
+<span class="diff-unchanged">      assert manager.count_pending_tasks() == 1</span>
+<span class="diff-unchanged">  </span>
+<span class="diff-unchanged">  </span>
+<span class="diff-unchanged">  def test_filter_tasks_by_priority_returns_correct_tasks():</span>
+<span class="diff-unchanged">      manager = TaskManager()</span>
+<span class="diff-unchanged">      manager.add_task("Task 1", 1)</span>
+<span class="diff-unchanged">      manager.add_task("Task 2", 2)</span>
+<span class="diff-unchanged">      manager.add_task("Task 3", 1)</span>
+<span class="diff-unchanged">      filtered = manager.filter_tasks_by_priority(1)</span>
+<span class="diff-unchanged">      assert len(filtered) == 2</span>
+<span class="diff-unchanged">      assert all(task.priority == 1 for task in filtered)</span>
+<span class="diff-unchanged">  </span>
+<span class="diff-unchanged">  </span>
+<span class="diff-unchanged">  def test_sort_tasks_by_priority_orders_tasks():</span>
+<span class="diff-unchanged">      manager = TaskManager()</span>
+<span class="diff-unchanged">      manager.add_task("Task 1", 5)</span>
+<span class="diff-unchanged">      manager.add_task("Task 2", 1)</span>
+<span class="diff-unchanged">      manager.add_task("Task 3", 3)</span>
+<span class="diff-unchanged">      manager.sort_tasks_by_priority()</span>
+<span class="diff-unchanged">      priorities = [task.priority for task in manager.tasks]</span>
+<span class="diff-unchanged">      assert priorities == [1, 3, 5]</span>
+<span class="diff-unchanged">  </span>
+<span class="diff-unchanged">  </span>
+<span class="diff-unchanged">  def test_update_task_priority_changes_priority():</span>
+<span class="diff-unchanged">      manager = TaskManager()</span>
+<span class="diff-unchanged">      manager.add_task("Task 1", 1)</span>
+<span class="diff-unchanged">      manager.update_task_priority("Task 1", 5)</span>
+<span class="diff-unchanged">      assert manager.tasks[0].priority == 5</span>
+<span class="diff-unchanged">  </span>
+<span class="diff-unchanged">  </span>
+<span class="diff-unchanged">  def test_remove_task_removes_correct_task():</span>
+<span class="diff-unchanged">      manager = TaskManager()</span>
+<span class="diff-unchanged">      manager.add_task("Task 1", 1)</span>
+<span class="diff-unchanged">      manager.add_task("Task 2", 2)</span>
+<span class="diff-unchanged">      manager.remove_task("Task 1")</span>
+<span class="diff-unchanged">      assert len(manager.tasks) == 1</span>
+<span class="diff-unchanged">      assert manager.tasks[0].description == "Task 2"</span>
+<span class="diff-unchanged">  </span>
+<span class="diff-unchanged">  </span>
+<span class="diff-unchanged">  def test_list_completed_tasks_only_shows_completed(capfd):</span>
+<span class="diff-unchanged">      manager = TaskManager()</span>
+<span class="diff-unchanged">      manager.add_task("Task 1", 1)</span>
+<span class="diff-unchanged">      manager.add_task("Task 2", 2)</span>
+<span class="diff-unchanged">      manager.mark_task_completed("Task 1")</span>
+<span class="diff-unchanged">      manager.list_completed_tasks()</span>
+<span class="diff-unchanged">      out, err = capfd.readouterr()</span>
+<span class="diff-unchanged">      assert "Task: Task 1, Priority: 1, Status: Completed" in out</span>
+<span class="diff-unchanged">      assert "Task: Task 2" not in out</span>
+<span class="diff-unchanged">  </span>
+<span class="diff-unchanged">  </span>
+<span class="diff-unchanged">  def test_list_pending_tasks_only_shows_pending(capfd):</span>
+<span class="diff-unchanged">      manager = TaskManager()</span>
+<span class="diff-unchanged">      manager.add_task("Task 1", 1)</span>
+<span class="diff-unchanged">      manager.add_task("Task 2", 2)</span>
+<span class="diff-unchanged">      manager.mark_task_completed("Task 2")</span>
+<span class="diff-unchanged">      manager.list_pending_tasks()</span>
+<span class="diff-unchanged">      out, err = capfd.readouterr()</span>
+<span class="diff-unchanged">      assert "Task: Task 1, Priority: 1, Status: Pending" in out</span>
+<span class="diff-unchanged">      assert "Task: Task 2" not in out</span>
+<span class="diff-unchanged">  </span>
+<span class="diff-unchanged">  </span>
+<span class="diff-unchanged">  def test_list_tasks_prints_all_tasks(capfd):</span>
+<span class="diff-unchanged">      manager = TaskManager()</span>
+<span class="diff-unchanged">      manager.add_task("Task 1", 1)</span>
+<span class="diff-unchanged">      manager.add_task("Task 2", 2)</span>
+<span class="diff-unchanged">      manager.list_tasks()</span>
+<span class="diff-unchanged">      out, err = capfd.readouterr()</span>
+<span class="diff-unchanged">      assert "Task: Task 1, Priority: 1, Status: Pending" in out</span>
+<span class="diff-unchanged">      assert "Task: Task 2, Priority: 2, Status: Pending" in out</span>
+<span class="diff-unchanged">  </span>
+<span class="diff-unchanged">  </span></code></pre>
+                    </details>
+                </td>
+                <td>
+                    <details>
+                        <summary>View More</summary>
+                        <div><strong>STDERR:</strong> <pre><code class="language-python"></code></pre></div>
+                        <div><strong>STDOUT:</strong> <pre><code class="language-python">============================= test session starts ==============================
+platform linux -- Python 3.10.12, pytest-8.4.2, pluggy-1.6.0
+rootdir: /home/runner/work/Test-gen/Test-gen/template_app
+plugins: cov-7.0.0
+collected 13 items
+
+tests/test_app.py .............                                          [100%]
+
+================================ tests coverage ================================
+_______________ coverage: platform linux, python 3.10.12-final-0 _______________
+
+Name                Stmts   Miss  Cover
+---------------------------------------
+myapp/__init__.py       0      0   100%
+myapp/app.py           61     11    82%
+tests/__init__.py       0      0   100%
+tests/test_app.py      86      0   100%
+---------------------------------------
+TOTAL                 147     11    93%
+Coverage XML written to file coverage.xml
+============================== 13 passed in 0.08s ==============================
+</code></pre></div>
+                        <div><strong>Test Code:</strong> <pre><code class="language-python">def test_clear_all_tasks_empties_task_list():
+    manager = TaskManager()
+    manager.add_task("Task 1", 1)
+    manager.add_task("Task 2", 2)
+    manager.clear_all_tasks()
+    assert len(manager.tasks) == 0
+</code></pre></div>
+                        <div><strong>Imports:</strong> <pre><code class="language-python">""
+</code></pre></div>
+                    </details>
+                </td>
+            </tr>
+            
+            <tr>
+                <td class="status-FAIL">FAIL</td>
+                <td>Coverage did not increase. Maybe the test did run but did not increase coverage, or maybe the test execution was skipped due to some problem</td>
+                <td>0</td>
+                <td>python</td>
+                <td>
+                    <details>
+                        <summary>View Full Code</summary>
+                        <pre><code><span class="diff-unchanged">  from myapp.app import Task, TaskManager</span>
+<span class="diff-unchanged">  </span>
+<span class="diff-unchanged">  </span>
+<span class="diff-unchanged">  </span>
+<span class="diff-unchanged">  def test_create_task():</span>
+<span class="diff-unchanged">      task = Task("Test Task", 1)</span>
+<span class="diff-unchanged">      assert task.description == "Test Task"</span>
+<span class="diff-unchanged">      assert task.priority == 1</span>
+<span class="diff-unchanged">      assert task.completed == False</span>
+<span class="diff-unchanged">  </span>
+<span class="diff-unchanged">  def test_mark_task_completed():</span>
+<span class="diff-unchanged">      task = Task("Test Task", 1)</span>
+<span class="diff-unchanged">      task.mark_completed()</span>
+<span class="diff-unchanged">      assert task.completed == True</span>
+<span class="diff-unchanged">  </span>
+<span class="diff-unchanged">  def test_add_task():</span>
+<span class="diff-unchanged">      manager = TaskManager()</span>
+<span class="diff-unchanged">      manager.add_task("Test Task", 1)</span>
+<span class="diff-unchanged">      assert len(manager.tasks) == 1</span>
+<span class="diff-unchanged">      assert manager.tasks[0].description == "Test Task"</span>
+<span class="diff-unchanged">  </span>
+<span class="diff-unchanged">  def test_mark_task_completed_in_manager():</span>
+<span class="diff-unchanged">      manager = TaskManager()</span>
+<span class="diff-unchanged">      manager.add_task("Test Task", 1)</span>
+<span class="diff-unchanged">      manager.mark_task_completed("Test Task")</span>
+<span class="diff-unchanged">      assert manager.tasks[0].completed == True</span>
+<span class="diff-added">+ </span>
+<span class="diff-added">+ def test_save_tasks_to_file_writes_correct_content(tmp_path):</span>
+<span class="diff-added">+     manager = TaskManager()</span>
+<span class="diff-added">+     manager.add_task("Task 1", 1)</span>
+<span class="diff-added">+     manager.mark_task_completed("Task 1")</span>
+<span class="diff-added">+     manager.add_task("Task 2", 2)</span>
+<span class="diff-added">+     file_path = tmp_path / "tasks.txt"</span>
+<span class="diff-added">+     manager.save_tasks_to_file(str(file_path))</span>
+<span class="diff-added">+     content = file_path.read_text()</span>
+<span class="diff-added">+     assert "Task 1,1,True" in content</span>
+<span class="diff-added">+     assert "Task 2,2,False" in content</span>
+<span class="diff-added">+ </span>
+<span class="diff-unchanged">  </span>
+<span class="diff-unchanged">  def test_count_pending_tasks_returns_correct_count():</span>
+<span class="diff-unchanged">      manager = TaskManager()</span>
+<span class="diff-unchanged">      manager.add_task("Task 1", 1)</span>
+<span class="diff-unchanged">      manager.add_task("Task 2", 2)</span>
+<span class="diff-unchanged">      manager.mark_task_completed("Task 1")</span>
+<span class="diff-unchanged">      assert manager.count_pending_tasks() == 1</span>
+<span class="diff-unchanged">  </span>
+<span class="diff-unchanged">  </span>
+<span class="diff-unchanged">  def test_filter_tasks_by_priority_returns_correct_tasks():</span>
+<span class="diff-unchanged">      manager = TaskManager()</span>
+<span class="diff-unchanged">      manager.add_task("Task 1", 1)</span>
+<span class="diff-unchanged">      manager.add_task("Task 2", 2)</span>
+<span class="diff-unchanged">      manager.add_task("Task 3", 1)</span>
+<span class="diff-unchanged">      filtered = manager.filter_tasks_by_priority(1)</span>
+<span class="diff-unchanged">      assert len(filtered) == 2</span>
+<span class="diff-unchanged">      assert all(task.priority == 1 for task in filtered)</span>
+<span class="diff-unchanged">  </span>
+<span class="diff-unchanged">  </span>
+<span class="diff-unchanged">  def test_sort_tasks_by_priority_orders_tasks():</span>
+<span class="diff-unchanged">      manager = TaskManager()</span>
+<span class="diff-unchanged">      manager.add_task("Task 1", 5)</span>
+<span class="diff-unchanged">      manager.add_task("Task 2", 1)</span>
+<span class="diff-unchanged">      manager.add_task("Task 3", 3)</span>
+<span class="diff-unchanged">      manager.sort_tasks_by_priority()</span>
+<span class="diff-unchanged">      priorities = [task.priority for task in manager.tasks]</span>
+<span class="diff-unchanged">      assert priorities == [1, 3, 5]</span>
+<span class="diff-unchanged">  </span>
+<span class="diff-unchanged">  </span>
+<span class="diff-unchanged">  def test_update_task_priority_changes_priority():</span>
+<span class="diff-unchanged">      manager = TaskManager()</span>
+<span class="diff-unchanged">      manager.add_task("Task 1", 1)</span>
+<span class="diff-unchanged">      manager.update_task_priority("Task 1", 5)</span>
+<span class="diff-unchanged">      assert manager.tasks[0].priority == 5</span>
+<span class="diff-unchanged">  </span>
+<span class="diff-unchanged">  </span>
+<span class="diff-unchanged">  def test_remove_task_removes_correct_task():</span>
+<span class="diff-unchanged">      manager = TaskManager()</span>
+<span class="diff-unchanged">      manager.add_task("Task 1", 1)</span>
+<span class="diff-unchanged">      manager.add_task("Task 2", 2)</span>
+<span class="diff-unchanged">      manager.remove_task("Task 1")</span>
+<span class="diff-unchanged">      assert len(manager.tasks) == 1</span>
+<span class="diff-unchanged">      assert manager.tasks[0].description == "Task 2"</span>
+<span class="diff-unchanged">  </span>
+<span class="diff-unchanged">  </span>
+<span class="diff-unchanged">  def test_list_completed_tasks_only_shows_completed(capfd):</span>
+<span class="diff-unchanged">      manager = TaskManager()</span>
+<span class="diff-unchanged">      manager.add_task("Task 1", 1)</span>
+<span class="diff-unchanged">      manager.add_task("Task 2", 2)</span>
+<span class="diff-unchanged">      manager.mark_task_completed("Task 1")</span>
+<span class="diff-unchanged">      manager.list_completed_tasks()</span>
+<span class="diff-unchanged">      out, err = capfd.readouterr()</span>
+<span class="diff-unchanged">      assert "Task: Task 1, Priority: 1, Status: Completed" in out</span>
+<span class="diff-unchanged">      assert "Task: Task 2" not in out</span>
+<span class="diff-unchanged">  </span>
+<span class="diff-unchanged">  </span>
+<span class="diff-unchanged">  def test_list_pending_tasks_only_shows_pending(capfd):</span>
+<span class="diff-unchanged">      manager = TaskManager()</span>
+<span class="diff-unchanged">      manager.add_task("Task 1", 1)</span>
+<span class="diff-unchanged">      manager.add_task("Task 2", 2)</span>
+<span class="diff-unchanged">      manager.mark_task_completed("Task 2")</span>
+<span class="diff-unchanged">      manager.list_pending_tasks()</span>
+<span class="diff-unchanged">      out, err = capfd.readouterr()</span>
+<span class="diff-unchanged">      assert "Task: Task 1, Priority: 1, Status: Pending" in out</span>
+<span class="diff-unchanged">      assert "Task: Task 2" not in out</span>
+<span class="diff-unchanged">  </span>
+<span class="diff-unchanged">  </span>
+<span class="diff-unchanged">  def test_list_tasks_prints_all_tasks(capfd):</span>
+<span class="diff-unchanged">      manager = TaskManager()</span>
+<span class="diff-unchanged">      manager.add_task("Task 1", 1)</span>
+<span class="diff-unchanged">      manager.add_task("Task 2", 2)</span>
+<span class="diff-unchanged">      manager.list_tasks()</span>
+<span class="diff-unchanged">      out, err = capfd.readouterr()</span>
+<span class="diff-unchanged">      assert "Task: Task 1, Priority: 1, Status: Pending" in out</span>
+<span class="diff-unchanged">      assert "Task: Task 2, Priority: 2, Status: Pending" in out</span>
+<span class="diff-unchanged">  </span>
+<span class="diff-unchanged">  </span></code></pre>
+                    </details>
+                </td>
+                <td>
+                    <details>
+                        <summary>View More</summary>
+                        <div><strong>STDERR:</strong> <pre><code class="language-python"></code></pre></div>
+                        <div><strong>STDOUT:</strong> <pre><code class="language-python">============================= test session starts ==============================
+platform linux -- Python 3.10.12, pytest-8.4.2, pluggy-1.6.0
+rootdir: /home/runner/work/Test-gen/Test-gen/template_app
+plugins: cov-7.0.0
+collected 13 items
+
+tests/test_app.py .............                                          [100%]
+
+================================ tests coverage ================================
+_______________ coverage: platform linux, python 3.10.12-final-0 _______________
+
+Name                Stmts   Miss  Cover
+---------------------------------------
+myapp/__init__.py       0      0   100%
+myapp/app.py           61      9    85%
+tests/__init__.py       0      0   100%
+tests/test_app.py      90      0   100%
+---------------------------------------
+TOTAL                 151      9    94%
+Coverage XML written to file coverage.xml
+============================== 13 passed in 0.08s ==============================
+</code></pre></div>
+                        <div><strong>Test Code:</strong> <pre><code class="language-python">def test_save_tasks_to_file_writes_correct_content(tmp_path):
+    manager = TaskManager()
+    manager.add_task("Task 1", 1)
+    manager.mark_task_completed("Task 1")
+    manager.add_task("Task 2", 2)
+    file_path = tmp_path / "tasks.txt"
+    manager.save_tasks_to_file(str(file_path))
+    content = file_path.read_text()
+    assert "Task 1,1,True" in content
+    assert "Task 2,2,False" in content
+</code></pre></div>
+                        <div><strong>Imports:</strong> <pre><code class="language-python">""
+</code></pre></div>
+                    </details>
+                </td>
+            </tr>
+            
+            <tr>
+                <td class="status-PASS">PASS</td>
+                <td></td>
+                <td>0</td>
+                <td>python</td>
+                <td>
+                    <details>
+                        <summary>View Full Code</summary>
+                        <pre><code><span class="diff-unchanged">  from myapp.app import Task, TaskManager</span>
+<span class="diff-unchanged">  </span>
+<span class="diff-unchanged">  </span>
+<span class="diff-unchanged">  </span>
+<span class="diff-unchanged">  def test_create_task():</span>
+<span class="diff-unchanged">      task = Task("Test Task", 1)</span>
+<span class="diff-unchanged">      assert task.description == "Test Task"</span>
+<span class="diff-unchanged">      assert task.priority == 1</span>
+<span class="diff-unchanged">      assert task.completed == False</span>
+<span class="diff-unchanged">  </span>
+<span class="diff-unchanged">  def test_mark_task_completed():</span>
+<span class="diff-unchanged">      task = Task("Test Task", 1)</span>
+<span class="diff-unchanged">      task.mark_completed()</span>
+<span class="diff-unchanged">      assert task.completed == True</span>
+<span class="diff-unchanged">  </span>
+<span class="diff-unchanged">  def test_add_task():</span>
+<span class="diff-unchanged">      manager = TaskManager()</span>
+<span class="diff-unchanged">      manager.add_task("Test Task", 1)</span>
+<span class="diff-unchanged">      assert len(manager.tasks) == 1</span>
+<span class="diff-unchanged">      assert manager.tasks[0].description == "Test Task"</span>
+<span class="diff-unchanged">  </span>
+<span class="diff-unchanged">  def test_mark_task_completed_in_manager():</span>
+<span class="diff-unchanged">      manager = TaskManager()</span>
+<span class="diff-unchanged">      manager.add_task("Test Task", 1)</span>
+<span class="diff-unchanged">      manager.mark_task_completed("Test Task")</span>
+<span class="diff-unchanged">      assert manager.tasks[0].completed == True</span>
+<span class="diff-added">+ </span>
+<span class="diff-added">+ def test_load_tasks_from_file_recreates_tasks(tmp_path):</span>
+<span class="diff-added">+     file_path = tmp_path / "tasks.txt"</span>
+<span class="diff-added">+     content = "Task 1,1,True\nTask 2,2,False\n"</span>
+<span class="diff-added">+     file_path.write_text(content)</span>
+<span class="diff-added">+     manager = TaskManager()</span>
+<span class="diff-added">+     manager.load_tasks_from_file(str(file_path))</span>
+<span class="diff-added">+     assert len(manager.tasks) == 2</span>
+<span class="diff-added">+     task1 = manager.tasks[0]</span>
+<span class="diff-added">+     task2 = manager.tasks[1]</span>
+<span class="diff-added">+     assert task1.description == "Task 1"</span>
+<span class="diff-added">+     assert task1.priority == 1</span>
+<span class="diff-added">+     assert task1.completed is True</span>
+<span class="diff-added">+     assert task2.description == "Task 2"</span>
+<span class="diff-added">+     assert task2.priority == 2</span>
+<span class="diff-added">+     assert task2.completed is False</span>
+<span class="diff-added">+ </span>
+<span class="diff-unchanged">  </span>
+<span class="diff-unchanged">  def test_count_pending_tasks_returns_correct_count():</span>
+<span class="diff-unchanged">      manager = TaskManager()</span>
+<span class="diff-unchanged">      manager.add_task("Task 1", 1)</span>
+<span class="diff-unchanged">      manager.add_task("Task 2", 2)</span>
+<span class="diff-unchanged">      manager.mark_task_completed("Task 1")</span>
+<span class="diff-unchanged">      assert manager.count_pending_tasks() == 1</span>
+<span class="diff-unchanged">  </span>
+<span class="diff-unchanged">  </span>
+<span class="diff-unchanged">  def test_filter_tasks_by_priority_returns_correct_tasks():</span>
+<span class="diff-unchanged">      manager = TaskManager()</span>
+<span class="diff-unchanged">      manager.add_task("Task 1", 1)</span>
+<span class="diff-unchanged">      manager.add_task("Task 2", 2)</span>
+<span class="diff-unchanged">      manager.add_task("Task 3", 1)</span>
+<span class="diff-unchanged">      filtered = manager.filter_tasks_by_priority(1)</span>
+<span class="diff-unchanged">      assert len(filtered) == 2</span>
+<span class="diff-unchanged">      assert all(task.priority == 1 for task in filtered)</span>
+<span class="diff-unchanged">  </span>
+<span class="diff-unchanged">  </span>
+<span class="diff-unchanged">  def test_sort_tasks_by_priority_orders_tasks():</span>
+<span class="diff-unchanged">      manager = TaskManager()</span>
+<span class="diff-unchanged">      manager.add_task("Task 1", 5)</span>
+<span class="diff-unchanged">      manager.add_task("Task 2", 1)</span>
+<span class="diff-unchanged">      manager.add_task("Task 3", 3)</span>
+<span class="diff-unchanged">      manager.sort_tasks_by_priority()</span>
+<span class="diff-unchanged">      priorities = [task.priority for task in manager.tasks]</span>
+<span class="diff-unchanged">      assert priorities == [1, 3, 5]</span>
+<span class="diff-unchanged">  </span>
+<span class="diff-unchanged">  </span>
+<span class="diff-unchanged">  def test_update_task_priority_changes_priority():</span>
+<span class="diff-unchanged">      manager = TaskManager()</span>
+<span class="diff-unchanged">      manager.add_task("Task 1", 1)</span>
+<span class="diff-unchanged">      manager.update_task_priority("Task 1", 5)</span>
+<span class="diff-unchanged">      assert manager.tasks[0].priority == 5</span>
+<span class="diff-unchanged">  </span>
+<span class="diff-unchanged">  </span>
+<span class="diff-unchanged">  def test_remove_task_removes_correct_task():</span>
+<span class="diff-unchanged">      manager = TaskManager()</span>
+<span class="diff-unchanged">      manager.add_task("Task 1", 1)</span>
+<span class="diff-unchanged">      manager.add_task("Task 2", 2)</span>
+<span class="diff-unchanged">      manager.remove_task("Task 1")</span>
+<span class="diff-unchanged">      assert len(manager.tasks) == 1</span>
+<span class="diff-unchanged">      assert manager.tasks[0].description == "Task 2"</span>
+<span class="diff-unchanged">  </span>
+<span class="diff-unchanged">  </span>
+<span class="diff-unchanged">  def test_list_completed_tasks_only_shows_completed(capfd):</span>
+<span class="diff-unchanged">      manager = TaskManager()</span>
+<span class="diff-unchanged">      manager.add_task("Task 1", 1)</span>
+<span class="diff-unchanged">      manager.add_task("Task 2", 2)</span>
+<span class="diff-unchanged">      manager.mark_task_completed("Task 1")</span>
+<span class="diff-unchanged">      manager.list_completed_tasks()</span>
+<span class="diff-unchanged">      out, err = capfd.readouterr()</span>
+<span class="diff-unchanged">      assert "Task: Task 1, Priority: 1, Status: Completed" in out</span>
+<span class="diff-unchanged">      assert "Task: Task 2" not in out</span>
+<span class="diff-unchanged">  </span>
+<span class="diff-unchanged">  </span>
+<span class="diff-unchanged">  def test_list_pending_tasks_only_shows_pending(capfd):</span>
+<span class="diff-unchanged">      manager = TaskManager()</span>
+<span class="diff-unchanged">      manager.add_task("Task 1", 1)</span>
+<span class="diff-unchanged">      manager.add_task("Task 2", 2)</span>
+<span class="diff-unchanged">      manager.mark_task_completed("Task 2")</span>
+<span class="diff-unchanged">      manager.list_pending_tasks()</span>
+<span class="diff-unchanged">      out, err = capfd.readouterr()</span>
+<span class="diff-unchanged">      assert "Task: Task 1, Priority: 1, Status: Pending" in out</span>
+<span class="diff-unchanged">      assert "Task: Task 2" not in out</span>
+<span class="diff-unchanged">  </span>
+<span class="diff-unchanged">  </span>
+<span class="diff-unchanged">  def test_list_tasks_prints_all_tasks(capfd):</span>
+<span class="diff-unchanged">      manager = TaskManager()</span>
+<span class="diff-unchanged">      manager.add_task("Task 1", 1)</span>
+<span class="diff-unchanged">      manager.add_task("Task 2", 2)</span>
+<span class="diff-unchanged">      manager.list_tasks()</span>
+<span class="diff-unchanged">      out, err = capfd.readouterr()</span>
+<span class="diff-unchanged">      assert "Task: Task 1, Priority: 1, Status: Pending" in out</span>
+<span class="diff-unchanged">      assert "Task: Task 2, Priority: 2, Status: Pending" in out</span>
+<span class="diff-unchanged">  </span>
+<span class="diff-unchanged">  </span></code></pre>
+                    </details>
+                </td>
+                <td>
+                    <details>
+                        <summary>View More</summary>
+                        <div><strong>STDERR:</strong> <pre><code class="language-python"></code></pre></div>
+                        <div><strong>STDOUT:</strong> <pre><code class="language-python">============================= test session starts ==============================
+platform linux -- Python 3.10.12, pytest-8.4.2, pluggy-1.6.0
+rootdir: /home/runner/work/Test-gen/Test-gen/template_app
+plugins: cov-7.0.0
+collected 13 items
+
+tests/test_app.py .............                                          [100%]
+
+================================ tests coverage ================================
+_______________ coverage: platform linux, python 3.10.12-final-0 _______________
+
+Name                Stmts   Miss  Cover
+---------------------------------------
+myapp/__init__.py       0      0   100%
+myapp/app.py           61      5    92%
+tests/__init__.py       0      0   100%
+tests/test_app.py      95      0   100%
+---------------------------------------
+TOTAL                 156      5    97%
+Coverage XML written to file coverage.xml
+============================== 13 passed in 0.09s ==============================
+</code></pre></div>
+                        <div><strong>Test Code:</strong> <pre><code class="language-python">def test_load_tasks_from_file_recreates_tasks(tmp_path):
+    file_path = tmp_path / "tasks.txt"
+    content = "Task 1,1,True\nTask 2,2,False\n"
+    file_path.write_text(content)
+    manager = TaskManager()
+    manager.load_tasks_from_file(str(file_path))
+    assert len(manager.tasks) == 2
+    task1 = manager.tasks[0]
+    task2 = manager.tasks[1]
+    assert task1.description == "Task 1"
+    assert task1.priority == 1
+    assert task1.completed is True
+    assert task2.description == "Task 2"
+    assert task2.priority == 2
+    assert task2.completed is False
+</code></pre></div>
+                        <div><strong>Imports:</strong> <pre><code class="language-python">""
+</code></pre></div>
+                    </details>
+                </td>
+            </tr>
+            
+        </table>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.23.0/prism.min.js"></script>
+    </body>
+    </html>
+    
