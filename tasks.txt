@@ -1,0 +1,2 @@
+Buy milk,2,True
+Write report,1,False
