@@ -11,6 +11,12 @@ on:
       target_file:
         description: 'Файл'
         required: false
+      target_function:
+        description: 'Функция'
+        required: false
+      target_class:
+        description: 'Класс'
+        required: false
 
 jobs:
   generate-tests:
@@ -30,11 +36,18 @@ jobs:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           ai_api_key: ${{ secrets.OPENAI_API_KEY }}
           project_root: '.'
-          tests_dir: 'tests'
-          model: 'gpt-4o-mini'
-          target_line_coverage: '75'
           target_dir: ${{ inputs.target_dir }}
           target_file: ${{ inputs.target_file }}
+          target_function: ${{ inputs.target_function }}
+          target_class: ${{ inputs.target_class }}
+          model: "inclusionai/ling-2.6-1t:free"
+          temperature: 0.5
+          base_url: "https://openrouter.ai/api/v1"
+          max_generate_retries: 3
+          max_fix_attempts: 4
+          target_line_coverage: 60
+          llm_provider: openai
+          max_tokens: 1000000
 
       - uses: actions/upload-artifact@v4
         if: always()

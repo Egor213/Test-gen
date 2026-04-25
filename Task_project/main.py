@@ -6,10 +6,9 @@ from test import *
 import utils.decorators as t
 
 @decoTest
-@t.decoTest(123)
 def main():
     service = test()
-    entity.Task()
+    entity.Task("123", 1)
     e.Task("test", "test")
     service.create_task("Buy milk", 2)
     service.create_task("Write report", 1)
@@ -19,7 +18,6 @@ def main():
 
     service.save("tasks.txt")
     service.load("tasks.txt")
-    t.utils_func()
     for t in service.show_all():
         print(t)
 
