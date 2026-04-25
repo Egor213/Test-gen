@@ -25,6 +25,6 @@ ai:
 
 logger:
   log_out: both
-  console_level: info
+  console_level: debug
   file_level: debug
   log_file: logs/app.log
