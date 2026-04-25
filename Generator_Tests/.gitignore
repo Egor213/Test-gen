@@ -1,4 +1,0 @@
-venv
-# infra/.env
-*.pyc
-settings.json

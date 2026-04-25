@@ -1,0 +1,73 @@
+! from unittest.mock import patch
+  
+! from utils.decorators import deco, utils_func
+! import pytest
+  
+  
+! class TestDeco:
+!     @pytest.fixture
+!     def decorated_function(self):
+!         @deco
+!         def sample_func(x, y):
+!             return x + y
+!         return sample_func
+  
+!     def test_deco_calls_inner_function(self, decorated_function):
+!         """Тест проверяет, что декоратор вызывает внутреннюю функцию с правильными аргументами"""
+!         with patch('builtins.print') as mock_print:
+!             result = decorated_function(2, 3)
+!             assert result == 5
+!             mock_print.assert_called_once_with("DECO!!")
+  
+!     def test_deco_handles_no_arguments(self, decorated_function):
+!         """Тест проверяет, что декоратор работает с функцией без аргументов"""
+!         @deco
+!         def no_args_func():
+!             return "no args"
+  
+!         with patch('builtins.print') as mock_print:
+!             result = no_args_func()
+!             assert result == "no args"
+!             mock_print.assert_called_once_with("DECO!!")
+  
+!     def test_deco_handles_keyword_arguments(self, decorated_function):
+!         """Тест проверяет, что декоратор правильно передает keyword аргументы"""
+!         @deco
+!         def kw_func(a, b=10):
+!             return a * b
+  
+!         with patch('builtins.print') as mock_print:
+!             result = kw_func(5, b=3)
+!             assert result == 15
+!             mock_print.assert_called_once_with("DECO!!")
+  
+!     def test_deco_preserves_function_name(self):
+!         """Тест проверяет, что декоратор сохраняет имя функции"""
+!         @deco
+!         def original_name():
+!             pass
+  
+!         assert original_name.__name__ == 'inner'
+  
+!     def test_deco_multiple_calls(self):
+!         """Тест проверяет, что декоратор работает корректно при множественных вызовах"""
+!         @deco
+!         def multiply(x, y):
+!             return x * y
+  
+!         with patch('builtins.print') as mock_print:
+!             result1 = multiply(2, 3)
+!             result2 = multiply(4, 5)
+!             assert result1 == 6
+!             assert result2 == 20
+!             assert mock_print.call_count == 2
+  
+  
+! class TestUtilsFunc:
+!     @pytest.mark.parametrize("expected", ["1"])
+!     def test_utils_func_returns_expected_value(self, expected):
+!         """
+!         Тестирует, что utils_func возвращает ожидаемое значение.
+!         """
+!         result = utils_func()
+!         assert result == expected

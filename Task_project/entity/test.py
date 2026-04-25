@@ -1,0 +1,3 @@
+
+class TestEntity:
+    pass

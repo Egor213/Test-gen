@@ -1,0 +1,431 @@
+! from unittest.mock import MagicMock, Mock, patch
+  
+! from entity.entity import Task
+! from service.task import TaskService
+! import pytest
+  
+  
+! class TestTaskServiceCreateTask:
+  
+!     @pytest.fixture
+!     def task_service(self):
+!         return TaskService()
+  
+!     @pytest.mark.parametrize('priority', [0, 6, -1, 10])
+!     def test_create_task_invalid_priority_raises_value_error(self, task_service, priority):
+!         """
+!         Тестирует, что создание задачи с приоритетом вне диапазона 1-5 вызывает ValueError.
+!         """
+!         with pytest.raises(ValueError, match='Priority must be between 1 and 5'):
+!             task_service.create_task('Valid task', priority)
+  
+!     def test_create_task_with_none_task_argument(self, task_service):
+!         """
+!         Tests that create_task works when task argument is None.
+!         This covers the default parameter case and the Task creation inside the method.
+!         """
+!         description = "Test task"
+!         priority = 3
+!         with pytest.raises(TypeError, match="missing 1 required positional argument: 'test'"):
+!             task_service.create_task(description, priority, task=None)
+  
+!     def test_create_task_with_valid_task_object(self, task_service):
+!         """
+!         Tests that create_task works when a valid Task object is passed.
+!         This covers the task parameter path and ensures the manager.add_task is called.
+!         """
+!         description = "Test task"
+!         priority = 3
+!         mock_task = MagicMock()
+!         mock_task.mark_completed = MagicMock()
+!         mock_task.test_method = MagicMock()
+  
+!         with pytest.raises(TypeError, match="missing 1 required positional argument: 'test'"):
+!             task_service.create_task(description, priority, task=mock_task)
+  
+!     def test_create_task_with_task_object_missing_methods(self, task_service):
+!         """
+!         Tests that create_task handles a task object that doesn't have required methods.
+!         This covers the case where the passed task object lacks mark_completed or test_method.
+!         """
+!         class MinimalTask:
+!             pass
+  
+!         description = "Test task"
+!         priority = 3
+!         mock_task = MinimalTask()
+  
+!         with pytest.raises(TypeError, match="missing 1 required positional argument: 'test'"):
+!             task_service.create_task(description, priority, task=mock_task)
+  
+!     def test_create_task_with_task_object_that_raises_in_mark_completed(self, task_service):
+!         """
+!         Tests that create_task handles a task object whose mark_completed raises an exception.
+!         This covers error handling in the task parameter path.
+!         """
+!         class FaultyTask:
+!             def mark_completed(self):
+!                 raise RuntimeError("Mark completed failed")
+  
+!         description = "Test task"
+!         priority = 3
+!         mock_task = FaultyTask()
+  
+!         with pytest.raises(TypeError, match="missing 1 required positional argument: 'test'"):
+!             task_service.create_task(description, priority, task=mock_task)
+  
+!     def test_create_task_with_task_object_that_raises_in_test_method(self, task_service):
+!         """
+!         Tests that create_task handles a task object whose test_method raises an exception.
+!         This covers error handling in the task parameter path.
+!         """
+!         class FaultyTask:
+!             def mark_completed(self):
+!                 pass
+!             def test_method(self, test):
+!                 raise RuntimeError("Test method failed")
+  
+!         description = "Test task"
+!         priority = 3
+!         mock_task = FaultyTask()
+  
+!         with pytest.raises(TypeError, match="missing 1 required positional argument: 'test'"):
+!             task_service.create_task(description, priority, task=mock_task)
+  
+!     def test_create_task_kills_return_none_line19(self, task_service):
+!         """
+!         Tests that create_task does NOT return None and returns the correct string.
+!         This kills the return_none mutation.
+!         """
+!         description = 'Test task'
+!         priority = 3
+!         original_test_method = Task.test_method
+!         Task.test_method = lambda self: None
+!         try:
+!             result = task_service.create_task(description, priority)
+!             assert result is not None
+!             assert result == f"Task '{description}' created with priority {priority}"
+!         finally:
+!             Task.test_method = original_test_method
+  
+!     def test_create_task_kills_comparison_swap_line13_boundary(self, task_service):
+!         """
+!         Tests boundary value for priority comparison to kill comparison_swap mutation.
+!         Priority=1 is the lower boundary; mutant (>= 1) would accept it but original (< 1) rejects it.
+!         """
+!         description = 'Test task'
+!         priority = 1
+!         original_test_method = Task.test_method
+!         Task.test_method = lambda self: None
+!         try:
+!             result = task_service.create_task(description, priority)
+!             assert result is not None
+!         finally:
+!             Task.test_method = original_test_method
+  
+!     def test_create_task_kills_comparison_swap_line13_upper_boundary(self, task_service):
+!         """
+!         Tests upper boundary value for priority comparison to kill comparison_swap mutation.
+!         Priority=5 is the upper boundary; mutant (>= 5) would accept it but original (> 5) rejects it.
+!         """
+!         description = 'Test task'
+!         priority = 6
+!         with pytest.raises(ValueError, match='Priority must be between 1 and 5'):
+!             task_service.create_task(description, priority)
+  
+!     def test_create_task_kills_comparison_swap_line13_upper_boundary_value(self, task_service):
+!         """
+!         Tests priority=6 which should raise ValueError in original but might not in mutant.
+!         """
+!         description = 'Test task'
+!         priority = 6
+!         with pytest.raises(ValueError, match='Priority must be between 1 and 5'):
+!             task_service.create_task(description, priority)
+  
+  
+! class TestTaskServiceCompleteTask:
+!     @pytest.fixture
+!     def task_service(self):
+!         return TaskService()
+  
+!     @pytest.fixture
+!     def task_manager(self):
+!         return MagicMock()
+  
+!     @pytest.fixture
+!     def task_service_with_mock(self, task_service, task_manager):
+!         task_service.manager = task_manager
+!         return task_service
+  
+!     @pytest.mark.parametrize('description, expected', [
+!         ('Buy milk', "Task 'Buy milk' marked as completed"),
+!         ('Write report', "Task 'Write report' marked as completed"),
+!         ('', "Task '' marked as completed"),
+!         ('Task with special chars !@#', "Task 'Task with special chars !@#' marked as completed")
+!     ])
+!     def test_complete_task_success(self, task_service_with_mock, task_manager, description, expected):
+!         """
+!         Тестирует успешное завершение задачи.
+!         """
+!         mock_task = MagicMock()
+!         task_manager.get_task.return_value = mock_task
+  
+!         result = task_service_with_mock.complete_task(description)
+  
+!         assert result == expected
+!         task_manager.get_task.assert_called_once_with(description)
+!         task_manager.mark_task_completed.assert_called_once_with(description)
+  
+!     def test_complete_task_with_none_description(self, task_service_with_mock, task_manager):
+!         """
+!         Тестирует вызов с None в качестве описания задачи.
+!         """
+!         task_manager.get_task.return_value = None
+  
+!         result = task_service_with_mock.complete_task(None)
+  
+!         assert result == "Task 'None' not found"
+!         task_manager.get_task.assert_called_once_with(None)
+!         task_manager.mark_task_completed.assert_not_called()
+  
+!     @pytest.mark.parametrize('description', [
+!         'Nonexistent task',
+!         'Another missing task',
+!         'Task that does not exist'
+!     ])
+!     def test_complete_task_not_found(self, task_service_with_mock, task_manager, description):
+!         """
+!         Тестирует случай, когда задача не найдена.
+!         """
+!         task_manager.get_task.return_value = None
+  
+!         result = task_service_with_mock.complete_task(description)
+  
+!         assert result == f"Task '{description}' not found"
+!         task_manager.get_task.assert_called_once_with(description)
+!         task_manager.mark_task_completed.assert_not_called()
+  
+  
+! class TestTaskServiceShowAll:
+!     @pytest.fixture
+!     def task_service(self):
+!         return TaskService()
+  
+!     @pytest.fixture
+!     def mock_manager(self):
+!         return Mock()
+  
+!     @pytest.mark.parametrize("manager_tasks, expected_result", [
+!         (["task1", "task2"], ["task1", "task2"]),
+!         (["task1", "task2", "task3"], ["task1", "task2", "task3"]),
+!         ([], []),
+!     ])
+!     def test_show_all_returns_correct_list(self, task_service, mock_manager, manager_tasks, expected_result):
+!         """Тест проверяет, что метод show_all возвращает корректный список задач"""
+!         task_service.manager = mock_manager
+!         mock_manager.tasks = manager_tasks
+  
+!         result = task_service.show_all()
+  
+!         assert result == expected_result
+  
+!     def test_show_all_returns_same_list_instance_from_manager(self, task_service, mock_manager):
+!         """Тест проверяет, что метод show_all возвращает тот же список, что и в менеджере"""
+!         tasks_list = ["task1", "task2"]
+!         task_service.manager = mock_manager
+!         mock_manager.tasks = tasks_list
+  
+!         result = task_service.show_all()
+  
+!         assert result is tasks_list
+  
+!     def test_show_all_returns_empty_list_when_manager_has_no_tasks(self, task_service, mock_manager):
+!         """Тест проверяет, что метод show_all возвращает пустой список, если задач нет"""
+!         task_service.manager = mock_manager
+!         mock_manager.tasks = []
+  
+!         result = task_service.show_all()
+  
+!         assert result == []
+  
+  
+! class TestTaskServicePendingCount:
+!     @pytest.fixture
+!     def task_service(self):
+!         service = TaskService()
+!         service.manager = MagicMock()
+!         return service
+  
+!     def test_pending_count_returns_manager_count(self, task_service):
+!         """
+!         Проверяет, что метод pending_count возвращает результат вызова count_pending_tasks у менеджера.
+!         """
+!         expected_count = 5
+!         task_service.manager.count_pending_tasks.return_value = expected_count
+  
+!         result = task_service.pending_count()
+  
+!         assert result == expected_count
+!         task_service.manager.count_pending_tasks.assert_called_once()
+  
+!     def test_pending_count_with_zero_tasks(self, task_service):
+!         """
+!         Проверяет, что метод pending_count корректно возвращает 0, когда нет ожидающих задач.
+!         """
+!         task_service.manager.count_pending_tasks.return_value = 0
+  
+!         result = task_service.pending_count()
+  
+!         assert result == 0
+!         task_service.manager.count_pending_tasks.assert_called_once()
+  
+!     def test_pending_count_with_multiple_tasks(self, task_service):
+!         """
+!         Проверяет, что метод pending_count корректно возвращает количество ожидающих задач.
+!         """
+!         expected_count = 10
+!         task_service.manager.count_pending_tasks.return_value = expected_count
+  
+!         result = task_service.pending_count()
+  
+!         assert result == expected_count
+!         task_service.manager.count_pending_tasks.assert_called_once()
+  
+  
+! class TestTaskService:
+!     @pytest.fixture
+!     def task_service(self):
+!         return TaskService()
+  
+!     @pytest.fixture
+!     def mock_task_manager(self):
+!         return MagicMock()
+  
+!     @pytest.mark.parametrize('mock_return,expected', [(5, 5), (10, 10), (0, 0), (100, 100)])
+!     def test_completed_count_returns_correct_values(self, task_service, mock_task_manager, mock_return, expected):
+!         """
+!         Тестирует, что метод completed_count корректно возвращает различные значения
+!         от менеджера задач.
+!         """
+!         task_service.manager = mock_task_manager
+!         mock_task_manager.count_completed_tasks.return_value = mock_return
+  
+!         result = task_service.completed_count()
+  
+!         assert result == expected
+!         mock_task_manager.count_completed_tasks.assert_called_once()
+  
+!     def test_completed_count_called_once(self, task_service, mock_task_manager):
+!         """
+!         Тестирует, что метод count_completed_tasks вызывается ровно один раз.
+!         """
+!         task_service.manager = mock_task_manager
+!         mock_task_manager.count_completed_tasks.return_value = 5
+  
+!         task_service.completed_count()
+  
+!         mock_task_manager.count_completed_tasks.assert_called_once()
+  
+!     def test_completed_count_handles_multiple_tasks(self, task_service, mock_task_manager):
+!         """
+!         Тестирует, что метод completed_count корректно возвращает количество завершенных задач
+!         при наличии нескольких завершенных задач.
+!         """
+!         task_service.manager = mock_task_manager
+!         mock_task_manager.count_completed_tasks.return_value = 10
+  
+!         result = task_service.completed_count()
+  
+!         assert result == 10
+!         mock_task_manager.count_completed_tasks.assert_called_once()
+  
+  
+! class TestTaskServiceSave:
+!     @pytest.fixture
+!     def task_service(self):
+!         return TaskService()
+  
+!     def test_save_calls_manager_save_tasks_to_file_with_default_filename(self, task_service):
+!         """
+!         Проверяет, что метод save вызывает save_tasks_to_file менеджера с именем файла по умолчанию.
+!         """
+!         with patch.object(task_service.manager, 'save_tasks_to_file') as mock_save:
+!             task_service.save()
+!             mock_save.assert_called_once_with("tasks.txt")
+  
+!     def test_save_calls_manager_save_tasks_to_file_with_correct_filename(self, task_service):
+!         """
+!         Проверяет, что метод save вызывает save_tasks_to_file менеджера с правильным именем файла.
+!         """
+!         with patch.object(task_service.manager, 'save_tasks_to_file') as mock_save:
+!             task_service.save("custom.txt")
+!             mock_save.assert_called_once_with("custom.txt")
+  
+!     def test_save_returns_correct_message_with_custom_filename(self, task_service):
+!         """
+!         Проверяет, что метод save возвращает корректное сообщение с указанным именем файла.
+!         """
+!         result = task_service.save("my_tasks.txt")
+!         assert result == "Tasks saved to my_tasks.txt"
+  
+!     def test_save_returns_correct_message_with_default_filename(self, task_service):
+!         """
+!         Проверяет, что метод save возвращает корректное сообщение с именем файла по умолчанию.
+!         """
+!         result = task_service.save()
+!         assert result == "Tasks saved to tasks.txt"
+  
+  
+! class TestTaskServiceLoad:
+!     @pytest.fixture
+!     def task_service(self):
+!         return TaskService()
+  
+!     @pytest.mark.parametrize("filename,expected_filename", [
+!         ("test_tasks.txt", "test_tasks.txt"),
+!         ("tasks.json", "tasks.json"),
+!         ("custom_path/tasks.txt", "custom_path/tasks.txt"),
+!         ("", ""),
+!         ("C:\\tasks.txt", "C:\\tasks.txt"),
+!         ("/home/user/tasks.txt", "/home/user/tasks.txt"),
+!     ])
+!     def test_load_calls_manager_with_correct_filename(self, task_service, filename, expected_filename):
+!         """
+!         Тестирует, что метод load вызывает load_tasks_from_file менеджера с правильным именем файла
+!         """
+!         with patch.object(task_service.manager, 'load_tasks_from_file') as mock_load:
+!             task_service.load(filename)
+!             mock_load.assert_called_once_with(expected_filename)
+  
+!     def test_load_uses_default_filename_when_none_provided(self, task_service):
+!         """
+!         Тестирует, что метод load использует имя файла по умолчанию, если аргумент не указан
+!         """
+!         with patch.object(task_service.manager, 'load_tasks_from_file') as mock_load:
+!             task_service.load()
+!             mock_load.assert_called_once_with("tasks.txt")
+  
+!     def test_load_does_not_modify_filename_argument(self, task_service):
+!         """
+!         Тестирует, что метод load не изменяет переданный аргумент filename
+!         """
+!         test_filename = "test_tasks.txt"
+!         with patch.object(task_service.manager, 'load_tasks_from_file'):
+!             task_service.load(test_filename)
+!             assert test_filename == "test_tasks.txt"
+  
+!     def test_load_returns_correct_message(self, task_service):
+!         """
+!         Тестирует, что метод load возвращает правильное сообщение
+!         """
+!         with patch.object(task_service.manager, 'load_tasks_from_file'):
+!             result = task_service.load("test_tasks.txt")
+!             assert result == "Tasks loaded from test_tasks.txt"
+  
+!     def test_load_returns_correct_message_with_default_filename(self, task_service):
+!         """
+!         Тестирует, что метод load возвращает правильное сообщение с именем файла по умолчанию
+!         """
+!         with patch.object(task_service.manager, 'load_tasks_from_file'):
+!             result = task_service.load()
+!             assert result == "Tasks loaded from tasks.txt"
