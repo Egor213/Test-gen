@@ -1,0 +1,13 @@
+name: Test Local Runner
+
+on:
+  push:
+  workflow_dispatch:
+
+jobs:
+  test:
+    runs-on: [self-hosted, Windows] 
+    steps:
+      - name: test
+        run: |
+          python C:\Diplom\Test-gen\test.py --github-token ${{ secrets.TEEEEST }}
